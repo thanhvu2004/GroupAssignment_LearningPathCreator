@@ -10,8 +10,8 @@
         // User is not logged in
         echo "<ul>";
         echo "<li><a href=\"index.php\">Home</a></li>";
-        echo "<li style=\"float: right\"><a href=\"registration.php\">Sign Up</a></li>";
-        echo "<li style=\"float: right\"><a href=\"login.php\">Log In</a></li>";
+        echo "<li style=\"float: right\"><a href=\"SignUp.php\">Sign Up</a></li>";
+        echo "<li style=\"float: right\"><a href=\"LogIn.php\">Log In</a></li>";
         echo "</ul>";
     }
     if (isset($_GET['logout'])) {

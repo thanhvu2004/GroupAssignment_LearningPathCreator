@@ -1,9 +1,35 @@
 <?php
-    session_start();
     $errors = array('email' => '', 'firstname' => '', 'lastname' => '', 'password' => '');
     $success = '';
+    function getDbConnection(){
+        try {
+            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
+            if ($con->connect_error) {
+                throw new Exception("Connection failed: " . $con->connect_error);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        return $con;
+    }
     function registrationValidate($email, $firstname, $lastname, $password){
         global $errors;
+        // Check if email already exists
+        try {
+            $con = getDbConnection();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        $stmt = $con->prepare("SELECT email FROM User WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close();
+        $con->close();
+        if ($result) {
+            $errors['email'] = "Email already exists";
+        }
 
         // Check if email is valid
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -36,11 +62,17 @@
         if (registrationValidate($email, $firstname, $lastname, $password)) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             // Prepare the data to be written
-            $pdo = new PDO('mysql:host=localhost;dbname=f3411302_LearningPathCreator;charset=utf8', 'root', '');
-            $stmt = $pdo->prepare("INSERT INTO users (email, firstname, lastname, password) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$email, $firstname, $lastname, $hashed_password]);
+            try {
+                $con = getDbConnection();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+            $stmt = $con->prepare("INSERT INTO User (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $firstname, $lastname, $email, $hashed_password);
+            $stmt->execute();
+            $stmt->close();
+            $con->close();
             $success = "You have successfully registered!";
-            $pdo = null;
         }
     }
 ?>
@@ -51,11 +83,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
-    <link rel="stylesheet" href="assets/css/navbar.css?v=1.2">
-    <link rel="stylesheet" href="assets/css/main.css?v=1.3">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    <?php include "navbar.php";?>
+    <?php include "NavBar.php";?>
     <h1>Sign up to be a tutor!</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <!-- email -->

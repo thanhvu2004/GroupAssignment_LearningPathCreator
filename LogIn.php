@@ -2,19 +2,24 @@
     session_start();
     $errors = array('login' => '');
     function loginValidate($login_email, $login_password) {
-        $file = fopen('data/formdata.csv', 'r');
-        while (($line = fgetcsv($file)) !== false) {
-            $email = $line[0];
-            $firstname = $line[1];
-            $lastname = $line[2];
-            $password = $line[3];
-            if ($email == $login_email) {
-                if (password_verify($login_password, $password)) {
-                    return $firstname . ' ' . $lastname;
-                } return false;
+        try {
+            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
+            if ($con->connect_error) {
+                throw new Exception("Connection failed: " . $con->connect_error);
             }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
-        fclose($file);
+        $stmt = $con->prepare("SELECT email, password, first_name, last_name FROM User WHERE email = ?");
+        $stmt->bind_param("s", $login_email);
+        $stmt->execute();
+        $stmt->bind_result($email, $password, $firstname, $lastname);
+        $stmt->fetch();
+        $stmt->close();
+        $con->close();
+        if ($email && password_verify($login_password, $password)) {
+            return $firstname . " " . $lastname;
+        }
         return false;
     }
 
