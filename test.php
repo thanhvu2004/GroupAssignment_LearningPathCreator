@@ -13,7 +13,7 @@ $password = "test";
     } catch (Exception $e) {
         echo $e->getMessage();
     }
-    $stmt = $con->prepare("INSERT INTO User (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO UserImages (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $firstname, $lastname, $email, $hashed_password);
     $stmt->execute();
     $stmt->close();

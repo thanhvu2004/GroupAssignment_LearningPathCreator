@@ -1,0 +1,154 @@
+@media only screen and (max-width: 768px) {
+    /* Media query for screens smaller than 768px */
+    .bio1 *, .bio *{
+        font-size: 2vw;
+    }
+    label, table * {
+        font-size: 1.5vw;
+    }
+}
+
+.container {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 0 auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto;
+}
+
+.bio1,
+.bio {
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+
+.bio1 {
+    width: 25%;
+}
+.bio1 a {
+    text-decoration: none;
+    max-width: fit-content;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.bio {
+    width: 75%;
+}
+
+p {
+    margin: 20px;
+    text-align: left;
+}
+
+/* Dash Board */
+#availablity,
+#session,
+#callurl {
+    margin: 20px;
+    min-width: fit-content;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    align-self: flex-start;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+/* Toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    .bio, .bio1 {
+        margin: 5px;
+        padding: 5px;
+    }
+    .bio {
+        margin-left: 0px;
+    }
+    .bio1 {
+        height: 100%;
+    }
+}

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $errors = array('email' => '', 'firstname' => '', 'lastname' => '', 'password' => '');
     $success = '';
     function getDbConnection(){
@@ -88,7 +89,7 @@
 </head>
 <body>
     <?php include "NavBar.php";?>
-    <h1>Sign up to be a tutor!</h1>
+    <h1>Sign up to be a user!</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <!-- email -->
         <label for="email">Email:</label><br>

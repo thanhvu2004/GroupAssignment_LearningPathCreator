@@ -1,0 +1,56 @@
+.container {
+    margin-left: 2%;
+}
+
+.module {
+    background-color: #f1f1f1;
+    padding: 2%;
+    margin: 2%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #ccc;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 20%;
+    display: inline-block;
+    height: fit-content;
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 768px) {
+    /* Media query for screens smaller than 768px */
+    .module {
+        height: 300px;
+        width: 25%;
+    }
+    .module p {
+        font-size: 1.5vw;
+    }
+    .objectives {
+        font-size: 1.25vw;
+    }
+}
+
+.module:hover {
+    box-shadow: 0 0 20px #ccc;
+    background-color: #ddd;
+}
+
+.objectives {
+    overflow: scroll;
+}
+.objectives a {
+    color: #000;
+    text-decoration: none;
+    border-left: #000 solid 2px;
+    padding-left: 10px;
+    font-weight: lighter;
+}
+.objectives a:hover {
+    border-left: #21A179 solid 2px;
+    color: #21A179;
+}
