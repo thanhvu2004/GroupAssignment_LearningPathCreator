@@ -2,16 +2,15 @@
     margin-left: 2%;
 }
 
-.AllModule {
+.AllModules {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
 }
 
 .module {
     background-color: #f1f1f1;
-    padding: 2%;
-    margin: 2%;
+    padding: 1%;
+    margin: 0.5%;
     border-radius: 10px;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px #ccc;
@@ -20,36 +19,38 @@
     font-weight: bold;
     color: #000;
     cursor: pointer;
-    height: 300px;
-    flex: 1 0 20%; /* Grow and shrink, basis of 20% */
-    max-width: 20%; /* Maximum width of 20% */
+    width: calc(20% - 1%);
+    height: 420px;
+    display: flex;
+    flex-direction: column;
 }
 
-@media only screen and (max-width: 1200px) {
+.module > *:nth-child(1) {
+    height: 50px;
+    overflow: hidden;
+}
+
+.module > *:nth-child(2) {
+    height: 150px;
+    overflow: scroll;
+}
+
+.module > *:nth-child(3) {
+    height: 200px;
+    overflow: scroll;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* Media query for screens smaller than 768px */
     .module {
-        flex: 1 0 25%; /* Grow and shrink, basis of 25% */
-        max-width: 25%; /* Maximum width of 25% */
+        width: calc(50% - 1%);
     }
-}
-
-@media only screen and (max-width: 900px) {
-    .module {
-        flex: 1 0 33.33%; /* Grow and shrink, basis of 33.33% */
-        max-width: 33.33%; /* Maximum width of 33.33% */
+    .module p {
+        font-size: 1.5vw;
     }
-}
-
-@media only screen and (max-width: 600px) {
-    .module {
-        flex: 1 0 50%; /* Grow and shrink, basis of 50% */
-        max-width: 50%; /* Maximum width of 50% */
-    }
-}
-
-@media only screen and (max-width: 400px) {
-    .module {
-        flex: 1 0 100%; /* Grow and shrink, basis of 100% */
-        max-width: 100%; /* Maximum width of 100% */
+    .objectives {
+        font-size: 1.25vw;
     }
 }
 
@@ -58,9 +59,6 @@
     background-color: #ddd;
 }
 
-.objectives {
-    overflow: scroll;
-}
 .objectives a {
     color: #000;
     text-decoration: none;
@@ -68,6 +66,7 @@
     padding-left: 10px;
     font-weight: lighter;
 }
+
 .objectives a:hover {
     border-left: #21A179 solid 2px;
     color: #21A179;
