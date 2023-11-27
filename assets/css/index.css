@@ -2,6 +2,12 @@
     margin-left: 2%;
 }
 
+.AllModule {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .module {
     background-color: #f1f1f1;
     padding: 2%;
@@ -14,23 +20,36 @@
     font-weight: bold;
     color: #000;
     cursor: pointer;
-    transition: 0.3s;
-    width: 20%;
-    display: inline-block;
     height: 300px;
-    vertical-align: top;
+    flex: 1 0 20%; /* Grow and shrink, basis of 20% */
+    max-width: 20%; /* Maximum width of 20% */
 }
 
-@media only screen and (max-width: 768px) {
-    /* Media query for screens smaller than 768px */
+@media only screen and (max-width: 1200px) {
     .module {
-        width: 25%;
+        flex: 1 0 25%; /* Grow and shrink, basis of 25% */
+        max-width: 25%; /* Maximum width of 25% */
     }
-    .module p {
-        font-size: 1.5vw;
+}
+
+@media only screen and (max-width: 900px) {
+    .module {
+        flex: 1 0 33.33%; /* Grow and shrink, basis of 33.33% */
+        max-width: 33.33%; /* Maximum width of 33.33% */
     }
-    .objectives {
-        font-size: 1.25vw;
+}
+
+@media only screen and (max-width: 600px) {
+    .module {
+        flex: 1 0 50%; /* Grow and shrink, basis of 50% */
+        max-width: 50%; /* Maximum width of 50% */
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .module {
+        flex: 1 0 100%; /* Grow and shrink, basis of 100% */
+        max-width: 100%; /* Maximum width of 100% */
     }
 }
 
