@@ -1,5 +1,9 @@
 <?php
-session_start();
+    session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,15 +13,18 @@ session_start();
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css?v=1.2">
+    <link rel="stylesheet" href="assets/css/index.css?v=1.3">
 </head>
 <body>
     <?php include "NavBar.php";?>
-    <h1>Hello <?php if(isset($_SESSION['fullname'])){echo $_SESSION['fullname'];}  ?></h1>
-    <h2>Welcome to the Learning Path Creator!</h2>
-    <p>Here you can create your own learning path and share it with others!</p>
-    <p>Click on the "Create Path" button to get started!</p>
-    <a href="CreatePath.php"><button>Create Path</button></a>
+    <!-- Home page -->
+    <div class="welcome">
+        <h1>Hello <?php if(isset($_SESSION['fullname'])){echo $_SESSION['fullname'];}  ?></h1>
+        <h2>Welcome to the Learning Path Creator!</h2>
+        <p>Here you can create your own learning path and share it with others!</p>
+        <p>Click on the "Create Path" button to get started!</p>
+        <a href="CreatePath.php"><button class="btn">Create Path</button></a>
+    </div>
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
         <?php
@@ -25,7 +32,7 @@ session_start();
             if ($con->connect_error) {
                 die("Connection failed: " . $con->connect_error);
             }
-            $stmt = $con->prepare("SELECT module_id, module_title, module_description FROM Module");
+            $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module");
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
@@ -45,12 +52,76 @@ session_start();
                         }
                         echo "</div>";
                     }
-
+                    echo "<div class='rating'>";
+                    // show the upvote and downvote buttons
+                    $stmt2 = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");
+                    $stmt2->bind_param("ii", $user_id, $row['module_id']);
+                    $stmt2->execute();
+                    $result2 = $stmt2->get_result();
+                    if ($result2->num_rows > 0) {
+                        if ($result2->fetch_assoc()['vote'] == 'up'){
+                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\" class=\"selected\">&#8679;</button>";
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";  
+                        } else {
+                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\" class=\"selected\">&#8681;</button>";    
+                        }              
+                    } else {
+                        echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
+                        echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";                  
+                    }
+                    echo "<p id=\"currentRating_{$row['module_id']}\">" . number_format($row['rating'], 0) . "</p>";
+                    echo "</div>";
                     echo "</div>";
                 }
             }
             $con->close();
         ?>
     </div>
+    <script>
+        function vote(action, moduleId) {
+            document.getElementById('upvote_' + moduleId).disabled = true;
+            document.getElementById('downvote_' + moduleId).disabled = true;
+
+            fetch('update_rating.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: action,
+                    module_id: moduleId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error === 'not_logged_in') {
+                    window.location.href = 'login.php';
+                } else {
+                    const updatedRating = data.updatedRating;
+                    const responseAction = data.action;
+                    document.getElementById('currentRating_' + moduleId).innerText = updatedRating;
+                    document.getElementById('downvote_' + moduleId).disabled = false;
+                    document.getElementById('upvote_' + moduleId).disabled = false;
+                    
+                    if (responseAction === 'up') {
+                        document.getElementById('downvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('upvote_'+moduleId).classList.add('selected');
+                    } else if (responseAction === 'down') {
+                        document.getElementById('upvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('downvote_'+moduleId).classList.add('selected');
+                    } else if (responseAction === 'cancel') {
+                        document.getElementById('upvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('downvote_' + moduleId).classList.remove('selected');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('downvote_' + moduleId).disabled = false;
+                document.getElementById('upvote_' + moduleId).disabled = false;
+            });
+        }
+    </script>
 </body>
 </html>

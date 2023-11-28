@@ -21,7 +21,7 @@
 }
 
 .bio1,
-.bio {
+.bio2 {
     margin: 10px;
     padding: 20px;
     text-align: center;
@@ -32,6 +32,9 @@
 
 .bio1 {
     width: 25%;
+}
+.bio2 {
+    width: 75%;
 }
 .bio1 a {
     text-decoration: none;
@@ -46,109 +49,80 @@ img {
     border: 1px solid #ccc;
 }
 
-.bio {
-    width: 75%;
-}
-
 p {
     margin: 20px;
     text-align: left;
 }
 
-/* Dash Board */
-#availablity,
-#session,
-#callurl {
-    margin: 20px;
-    min-width: fit-content;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    align-self: flex-start;
-    padding: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 15px;
-}
-
-/* Toggle switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin: 20px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
 @media only screen and (max-width: 768px) {
-    .dashboard {
-        flex-direction: column;
-    }
-    .bio, .bio1 {
+    .bio2, .bio1 {
         margin: 5px;
         padding: 5px;
     }
-    .bio {
+    .bio2 {
         margin-left: 0px;
     }
     .bio1 {
         height: 100%;
     }
+}
+.AllModules {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto;
+}
+.module {
+    background-color: #f1f1f1;
+    padding: 1%;
+    margin: 0.5%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #ccc;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    width: calc(30% - 1%);
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.module > *:nth-child(1) {
+    height: 50px;
+    overflow: hidden;
+}
+
+.module > *:nth-child(2) {
+    height: 150px;
+    overflow: scroll;
+    padding-bottom: 20px;
+}
+
+.module > *:nth-child(3) {
+    height: 200px;
+    overflow: scroll;
+    margin-bottom: 20px;
+}
+.module:hover {
+    box-shadow: 0 0 20px #ccc;
+    background-color: #ddd;
+}
+
+.objectives a {
+    color: #000;
+    text-decoration: none;
+    border-left: #000 solid 2px;
+    padding-left: 10px;
+    font-weight: lighter;
+}
+
+.objectives a:hover {
+    border-left: #21A179 solid 2px;
+    color: #21A179;
 }
