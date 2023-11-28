@@ -9,7 +9,7 @@ session_start();
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index.css?v=1.2">
 </head>
 <body>
     <?php include "NavBar.php";?>

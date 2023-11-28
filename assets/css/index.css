@@ -2,10 +2,15 @@
     margin-left: 2%;
 }
 
+.AllModules {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .module {
     background-color: #f1f1f1;
-    padding: 2%;
-    margin: 2%;
+    padding: 1%;
+    margin: 0.5%;
     border-radius: 10px;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px #ccc;
@@ -14,18 +19,32 @@
     font-weight: bold;
     color: #000;
     cursor: pointer;
-    transition: 0.3s;
-    width: 20%;
-    display: inline-block;
-    height: fit-content;
-    vertical-align: top;
+    width: calc(20% - 1%);
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+.module > *:nth-child(1) {
+    height: 50px;
+    overflow: hidden;
+}
+
+.module > *:nth-child(2) {
+    height: 150px;
+    overflow: scroll;
+}
+
+.module > *:nth-child(3) {
+    height: 200px;
+    overflow: scroll;
+    margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 768px) {
     /* Media query for screens smaller than 768px */
     .module {
-        height: 300px;
-        width: 25%;
+        width: calc(50% - 1%);
     }
     .module p {
         font-size: 1.5vw;
@@ -40,9 +59,6 @@
     background-color: #ddd;
 }
 
-.objectives {
-    overflow: scroll;
-}
 .objectives a {
     color: #000;
     text-decoration: none;
@@ -50,6 +66,7 @@
     padding-left: 10px;
     font-weight: lighter;
 }
+
 .objectives a:hover {
     border-left: #21A179 solid 2px;
     color: #21A179;
