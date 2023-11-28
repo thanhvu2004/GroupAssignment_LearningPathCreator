@@ -1,6 +1,7 @@
 <?php
+        
         session_start();
-
+        include "checkConnection.php";
         define('CONTENT_TYPE_JSON', 'application/json');
 
         // Check if the request is a POST request
@@ -23,12 +24,7 @@
             $user_id = $_SESSION['user_id'];
 
             // Connect to the database
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                http_response_code(500); // Internal Server Error
-                echo json_encode(['error' => 'database_connection_error']);
-                exit;
-            }
+            $con = checkConnectionDb();
 
             // Check if a row already exists in UserVotes for the current user and module
             $stmt = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");

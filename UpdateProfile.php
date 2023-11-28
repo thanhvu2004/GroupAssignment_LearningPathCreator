@@ -5,12 +5,10 @@
         header('Location: login.php');
         exit;
     }
+    include "checkConnection.php";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
-        $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-        if ($con->connect_error) {
-            die("Connection failed: " . $con->connect_error);
-        }
+        $con = checkConnectionDb();
 
         // Retrieve the user_id based on the email
         $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");

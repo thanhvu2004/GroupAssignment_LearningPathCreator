@@ -1,17 +1,11 @@
 <?php
-session_start();
-
-    if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php');
-        exit;
+    session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
     }
+    include "checkConnection.php";
 
-    $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-
-    if ($con->connect_error) {
-        die("Connection failed: " . $con->connect_error);
-    }
-
+    $con = checkConnectionDb();
     // Retrieve the user_id based on the email
     $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");
     $stmt->bind_param("s", $_SESSION['login_email']);
@@ -67,10 +61,7 @@ session_start();
         <div class="bio2">
             <h2>My Modules</h2>
             <?php
-                $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-                if ($con->connect_error) {
-                    die("Connection failed: " . $con->connect_error);
-                }
+                $con = checkConnectionDb();
                 $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module WHERE module_creator_id = ?");
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();

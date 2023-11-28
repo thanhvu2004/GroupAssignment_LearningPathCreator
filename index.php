@@ -3,7 +3,7 @@
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
-
+    include "checkConnection.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,10 +28,8 @@
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
         <?php
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                die("Connection failed: " . $con->connect_error);
-            }
+            $con = checkConnectionDb();
+
             $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module");
             $stmt->execute();
             $result = $stmt->get_result();
@@ -78,6 +76,15 @@
             $con->close();
         ?>
     </div>
-    <script src="assets/js/vote.js"></script>
+        <!-- pop up to prompt the user to log in/sign up if the user haven't -->
+    <div id="popup" class="">
+        <div class="popup-content">
+            <span id="close">&times;</span>
+            <h2>Log in or sign up to vote!</h2>
+            <a href="login.php">Log in</a>
+            <a href="signup.php">Sign up</a>
+        </div>
+    </div>
+    <script src="assets/js/vote.js?v=2.0"></script>
 </body>
 </html>

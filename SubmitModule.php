@@ -1,12 +1,13 @@
 <?php
     session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+    include "checkConnection.php";
     // Check if form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Connect to the database
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                die("Connection failed: " . $con->connect_error);
-            }
+            $con = checkConnectionDb();
             // Retrieve the user_id based on the email
             $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");
             $stmt->bind_param("s", $_SESSION['login_email']);

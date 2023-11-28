@@ -1,15 +1,13 @@
 <?php
     session_start();
-    if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php');
-        exit;
+    session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
     }
+    include "checkConnection.php";
     if (isset($_GET['module_id'])) {
         $moduleId = $_GET['module_id'];
-        $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-        if ($con->connect_error) {
-            die("Connection failed: " . $con->connect_error);
-        }
+        $con = checkConnectionDb();
         // check if the user is the creator of the module
         $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ?");
         $stmt->bind_param("i", $moduleId);

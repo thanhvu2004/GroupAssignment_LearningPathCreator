@@ -1,15 +1,12 @@
 <?php
     session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+    include "checkConnection.php";
     $errors = array('login' => '');
     function loginValidate($login_email, $login_password) {
-        try {
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                throw new Exception("Connection failed: " . $con->connect_error);
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        $con = checkConnectionDb();
         $stmt = $con->prepare("SELECT email, password, first_name, last_name FROM User WHERE email = ?");
         $stmt->bind_param("s", $login_email);
         $stmt->execute();
@@ -24,14 +21,7 @@
     }
 
     function getUserId($login_email){
-        try {
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                throw new Exception("Connection failed: " . $con->connect_error);
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        $con = checkConnectionDb();
         $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");
         $stmt->bind_param("s", $login_email);
         $stmt->execute();
@@ -65,10 +55,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainPage</title>
     <link rel="stylesheet" href="assets/css/navbar.css?v=1.2">
-    <link rel="stylesheet" href="assets/css/main.css?v=1.3">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.5">
 </head>
 <body>
     <?php include "navbar.php";?>
+    <?php 
+        if(isset($_GET['error'])){
+            if($_GET['error'] == 401){
+                echo "<h2>You must be logged in before create and share your path!</h2>";
+            }
+        }
+    ?>
     <h1>Log in</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <!-- email -->
@@ -80,7 +77,7 @@
         <!-- submit -->
         <input type="submit" value="Log In!">  
         <span class="error"><?php echo $errors['login']; ?></span><br>
-
+        <span>Don't have an account? </span><a href="SignUp.php">Join Us</a>
     </form>
 </body>
 </html>
