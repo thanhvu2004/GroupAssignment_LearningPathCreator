@@ -17,11 +17,14 @@
 </head>
 <body>
     <?php include "NavBar.php";?>
-    <h1>Hello <?php if(isset($_SESSION['fullname'])){echo $_SESSION['fullname'];}  ?></h1>
-    <h2>Welcome to the Learning Path Creator!</h2>
-    <p>Here you can create your own learning path and share it with others!</p>
-    <p>Click on the "Create Path" button to get started!</p>
-    <a href="CreatePath.php"><button>Create Path</button></a>
+    <!-- Home page -->
+    <div class="welcome">
+        <h1>Hello <?php if(isset($_SESSION['fullname'])){echo $_SESSION['fullname'];}  ?></h1>
+        <h2>Welcome to the Learning Path Creator!</h2>
+        <p>Here you can create your own learning path and share it with others!</p>
+        <p>Click on the "Create Path" button to get started!</p>
+        <a href="CreatePath.php"><button class="btn">Create Path</button></a>
+    </div>
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
         <?php
@@ -55,25 +58,18 @@
                     $stmt2->bind_param("ii", $user_id, $row['module_id']);
                     $stmt2->execute();
                     $result2 = $stmt2->get_result();
-                
                     if ($result2->num_rows > 0) {
-                        // A row exists, so get the existing vote
-                        $row2 = $result2->fetch_assoc();
-                        $existingVote = $row2['vote'];
-                
-                        // Disable the upvote or downvote button based on the existing vote
-                        if ($existingVote === 'up') {
-                            echo "<button disabled onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
-                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";
+                        if ($result2->fetch_assoc()['vote'] == 'up'){
+                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\" class=\"selected\">&#8679;</button>";
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";  
                         } else {
                             echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
-                            echo "<button disabled onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";
-                        }
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\" class=\"selected\">&#8681;</button>";    
+                        }              
                     } else {
-                        // No row exists, so show both buttons enabled
                         echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
-                        echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";
-                    }                    
+                        echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";                  
+                    }
                     echo "<p id=\"currentRating_{$row['module_id']}\">" . number_format($row['rating'], 0) . "</p>";
                     echo "</div>";
                     echo "</div>";
@@ -103,10 +99,21 @@
                     window.location.href = 'login.php';
                 } else {
                     const updatedRating = data.updatedRating;
+                    const responseAction = data.action;
                     document.getElementById('currentRating_' + moduleId).innerText = updatedRating;
                     document.getElementById('downvote_' + moduleId).disabled = false;
                     document.getElementById('upvote_' + moduleId).disabled = false;
-                    document.getElementById(action + 'vote_' + moduleId).disabled = true;
+                    
+                    if (responseAction === 'up') {
+                        document.getElementById('downvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('upvote_'+moduleId).classList.add('selected');
+                    } else if (responseAction === 'down') {
+                        document.getElementById('upvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('downvote_'+moduleId).classList.add('selected');
+                    } else if (responseAction === 'cancel') {
+                        document.getElementById('upvote_' + moduleId).classList.remove('selected');
+                        document.getElementById('downvote_' + moduleId).classList.remove('selected');
+                    }
                 }
             })
             .catch(error => {

@@ -66,23 +66,29 @@
             $row = $result->fetch_assoc();
             $currentRating = $row['rating'];
 
-            // Update the rating based on the action (upvote or downvote)
-            if ($action === 'up' && $existingVote === 'down') {
-                $currentRating += 2; // Increment rating by 2 for upvote if the existing vote was a downvote
-            } elseif ($action === 'down' && $existingVote === 'up') {
-                $currentRating -= 2; // Decrement rating by 2 for downvote if the existing vote was an upvote
-            } else {
-                $action === 'up' ? $currentRating++ : $currentRating--;
-            }
+        // Update the rating based on the action (upvote or downvote)
+        if ($action === 'up' && $existingVote === 'down') {
+            $currentRating += 2; // Increment rating by 2 for upvote if the existing vote was a downvote
+        } elseif ($action === 'down' && $existingVote === 'up') {
+            $currentRating -= 2; // Decrement rating by 2 for downvote if the existing vote was an upvote
+        } elseif ($action === 'up' && $existingVote === 'up' || $action === 'down' && $existingVote === 'down'){
+            $stmt = $con->prepare("DELETE FROM UserVotes WHERE user_id = ? AND module_id = ?");
+            $stmt->bind_param("ii", $user_id, $module_id);
+            $stmt->execute();
+            $action === 'up' ? $currentRating-- : $currentRating++;
+            $action = 'cancel';
+        } else {
+            $action === 'up' ? $currentRating++ : $currentRating--;
+        }
 
-            // Update the module's rating in the database
-            $updateStmt = $con->prepare("UPDATE Module SET rating = ? WHERE module_id = ?");
-            $updateStmt->bind_param("di", $currentRating, $module_id);
-            $updateStmt->execute();
+        // Update the module's rating in the database
+        $updateStmt = $con->prepare("UPDATE Module SET rating = ? WHERE module_id = ?");
+        $updateStmt->bind_param("di", $currentRating, $module_id);
+        $updateStmt->execute();
 
-            // Return the updated rating as a JSON response
-            header(CONTENT_TYPE_JSON);
-            echo json_encode(['updatedRating' => $currentRating]);
+        // Return the updated rating as a JSON response
+        header(CONTENT_TYPE_JSON);
+        echo json_encode(['updatedRating' => $currentRating,'action' => $action]);
         } else {
             echo "Module not found.";
         }
