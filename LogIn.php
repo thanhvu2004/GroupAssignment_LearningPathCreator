@@ -23,14 +23,35 @@
         return false;
     }
 
+    function getUserId($login_email){
+        try {
+            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
+            if ($con->connect_error) {
+                throw new Exception("Connection failed: " . $con->connect_error);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");
+        $stmt->bind_param("s", $login_email);
+        $stmt->execute();
+        $stmt->bind_result($user_id);
+        $stmt->fetch();
+        $stmt->close();
+        $con->close();
+        return $user_id;
+    }
+
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $login_email = strtolower($_POST['login_email']); // case insensitive
         $login_password = $_POST['login_password'];
         $fullname = loginValidate($login_email, $login_password);
+        $user_id = getUserId($login_email);
         if ($fullname) {
             $_SESSION['login_email'] = $login_email;
             $_SESSION['loggedIn'] = true;
             $_SESSION['fullname'] = $fullname;
+            $_SESSION['user_id'] = $user_id;
             header('Location: index.php');
         } else {
             $errors['login'] = "Invalid email or password";

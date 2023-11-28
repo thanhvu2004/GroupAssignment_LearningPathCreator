@@ -20,7 +20,7 @@
     color: #000;
     cursor: pointer;
     width: calc(20% - 1%);
-    height: 420px;
+    height: 450px;
     display: flex;
     flex-direction: column;
 }
@@ -33,12 +33,34 @@
 .module > *:nth-child(2) {
     height: 150px;
     overflow: scroll;
+    padding-bottom: 20px;
 }
 
 .module > *:nth-child(3) {
     height: 200px;
     overflow: scroll;
     margin-bottom: 20px;
+}
+.rating button {
+    background-color: #21A179;
+    border: none;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+}
+.rating button:hover {
+    background-color: #000;
+}
+.rating button:disabled {
+    background-color: #ccc;
+}
+.rating p{
+    display: inline-block;
+    margin: 2px;
+    padding: 1px 5px 1px 5px;
 }
 
 @media only screen and (max-width: 768px) {
