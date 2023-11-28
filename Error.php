@@ -17,10 +17,10 @@
         if ($error==500){
             echo "<h1>$error</h1>";
             echo "<h2>Internal Server Error</p>";
-        } else if ($error==401){
+        } elseif ($error==401){
             echo "<h1>$error</h1>";
             echo "<h2>Unauthorized</p>";
-        } else if ($error==404){
+        } elseif ($error==404){
             echo "<h1>$error</h1>";
             echo "<h2>Page Not Found</p>";
         } else {
