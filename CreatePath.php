@@ -70,7 +70,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="assets/css/navbar.css">
-        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/main.css?v=1.2">
     </head>
     <body>
         <?php include "NavBar.php";?>
@@ -94,7 +94,7 @@
                             echo    '<input type="url" id="objectiveUrl' . ($i + 1) . '" name="objectiveUrl[]" value="' . $objectives[$i]['objective_url'] . '" required>';
                     
                             // Add a delete button next to each objective, but disable it if there's only one objective
-                            echo '<button type="button" onclick="deleteObjective(this, ' . $objectives[$i]['objective_id'] . ')" ' . (count($objectives) <= 1 ? 'disabled' : '') . '>Delete</button>';
+                            echo '<button type="button" class="delete btn" onclick="deleteObjective(this, ' . $objectives[$i]['objective_id'] . ')" ' . (count($objectives) <= 1 ? 'disabled' : '') . '>Delete</button>';
                     
                             echo '</div>';
                         }
@@ -102,10 +102,10 @@
                 ?>
             </div>
 
-            <button type="button" id="addObjective">Add Objective</button>
+            <button type="button" id="addObjective" class="btn add">Add Objective</button>
             <input type="submit" value="Submit">
         </form>
 
-        <script src="assets/js/addObjective.js?v=1.5"></script>
+        <script src="assets/js/addObjective.js"></script>
     </body>
 </html>

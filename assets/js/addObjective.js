@@ -30,6 +30,15 @@ document.getElementById("addObjective").addEventListener("click", function () {
   input.required = true;
   objective.appendChild(input);
 
+  var button = document.createElement("button");
+  button.type = "button";
+  button.className = "delete btn deleteObjective";
+  button.textContent = "Delete";
+  button.addEventListener("click", function () {
+    deleteObjective(this, objectiveCount);
+  });
+  objective.appendChild(button);
+
   objectives.appendChild(objective);
 });
 

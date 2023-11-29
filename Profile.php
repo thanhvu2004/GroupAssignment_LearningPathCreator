@@ -44,7 +44,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.1">
     <link rel="stylesheet" href="assets/css/profile.css">
 </head>
 <body>
@@ -87,7 +87,7 @@
                         echo "<div class='rating'>";
                         echo "<p id=\"currentRating_{$row['module_id']}\">Rating: " . number_format($row['rating'], 0) . "</p>";
                         echo "<a href=\"CreatePath.php?module_id={$row['module_id']}\"><button class=\"btn\">Edit</button></a>";
-                        echo "<button onclick=\"confirmDelete({$row['module_id']})\" class=\"btn delete\">Delete</button>";
+                        echo "<button onclick=\"confirmDelete({$row['module_id']})\" class=\"btn delete2\">Delete</button>";
                         echo "</div>";
                         echo "</div>";
                     }
