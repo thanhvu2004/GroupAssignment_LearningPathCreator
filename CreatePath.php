@@ -44,8 +44,23 @@
                 $objectives[] = $row;
             }
         }
+        $O_objectiveTitles = array();
+        $O_objectiveUrls = array();
+        $O_objectiveIds = array();
+        foreach ($objectives as $objective) {
+            $O_objectiveTitles[] = $objective['objective_title'];
+            $O_objectiveUrls[] = $objective['objective_url'];
+            $O_objectiveIds[] = $objective['objective_id'];
+        }
+        $_SESSION['O_objectiveTitles'] = $O_objectiveTitles;
+        $_SESSION['O_objectiveUrls'] = $O_objectiveUrls;
+        $_SESSION['O_objectiveIds'] = $O_objectiveIds;
         $stmt->close();
         $con->close();
+    } else {
+        $_SESSION['O_objectiveTitles'] = null;
+        $_SESSION['O_objectiveUrls'] = null;
+        $_SESSION['O_objectiveIds'] = null;
     }
 ?>
 <!DOCTYPE html>
@@ -59,7 +74,7 @@
     </head>
     <body>
         <?php include "NavBar.php";?>
-        <form id="moduleForm" method="post" action="submitModule.php">
+        <form id="moduleForm" method="post" action="submitModule.php<?php echo isset($moduleId) ? "?module_id=".$moduleId : ""; ?>">
             <label for="moduleTitle">Module Title:</label>
             <input type="text" id="moduleTitle" name="moduleTitle" value="<?php echo $module ? $module['module_title'] : ''; ?>" required>
 

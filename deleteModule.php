@@ -1,37 +1,29 @@
 <?php
     session_start();
-    session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
     include "checkConnection.php";
+    $con = checkConnectionDb();
     if (isset($_GET['module_id'])) {
-        $moduleId = $_GET['module_id'];
-        $con = checkConnectionDb();
-        // check if the user is the creator of the module
-        $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            if ($row['module_creator_id'] != $_SESSION['user_id']) {
-                header('Location: Login.php');
-                exit;
-            }
-        }
+        $module_id = $_GET['module_id'];
+        // delete all objectives associated with the module
         $stmt = $con->prepare("DELETE FROM Objective WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
+        $stmt->bind_param("i", $module_id);
         $stmt->execute();
-        $stmt = $con->prepare("DELETE FROM UserVotes WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
-        $stmt->execute();
+        // delete the module
         $stmt = $con->prepare("DELETE FROM Module WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
+        $stmt->bind_param("i", $module_id);
         $stmt->execute();
-        $stmt->close();
-        $con->close();
-        header('Location: Profile.php');
+    
+        if ($stmt->affected_rows > 0) {
+            echo "Module deleted successfully";
+            header('Location: Profile.php');
+        } else {
+            echo "Error deleting module";
+            header('Location: Profile.php');
+        }
     } else {
+        echo "Error deleting module";
         header('Location: Profile.php');
     }

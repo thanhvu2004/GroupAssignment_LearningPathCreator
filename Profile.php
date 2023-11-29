@@ -45,7 +45,7 @@
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/profile.css?v=1.2">
+    <link rel="stylesheet" href="assets/css/profile.css">
 </head>
 <body>
     <?php include "navbar.php"; ?>
@@ -86,16 +86,32 @@
                         }
                         echo "<div class='rating'>";
                         echo "<p id=\"currentRating_{$row['module_id']}\">Rating: " . number_format($row['rating'], 0) . "</p>";
-                        echo "<a href=\"deleteModule.php?module_id={$row['module_id']}\"><button class=\"btn\">Delete</button></a>";
                         echo "<a href=\"CreatePath.php?module_id={$row['module_id']}\"><button class=\"btn\">Edit</button></a>";
+                        echo "<button onclick=\"confirmDelete({$row['module_id']})\" class=\"btn delete\">Delete</button>";
                         echo "</div>";
                         echo "</div>";
                     }
                     echo "</div>";
                 }
                 $con->close();
-
             ?>
     </div>
+    <script>
+        function confirmDelete(moduleId) {
+            if (confirm("Are you sure you want to delete this module?")) {
+                // Delete the module
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "deleteModule.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        alert(this.responseText);
+                        location.reload(); // Reload the page to reflect the changes
+                    }
+                }
+                xhr.send("module_id=" + moduleId);
+            }
+        }
+    </script>
 </body>
 </html>

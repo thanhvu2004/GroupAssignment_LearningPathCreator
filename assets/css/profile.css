@@ -126,3 +126,7 @@ p {
     border-left: #21A179 solid 2px;
     color: #21A179;
 }
+
+.delete {
+    background-color: #DB4F2C;
+}
