@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 0);
 session_start();
 if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
     $user_id = $_SESSION['user_id'];
@@ -37,9 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($module_id != 'null') {
         // Module exists, update the Module record
         $updateStmt = $con->prepare("UPDATE Module SET module_title = ?, module_description = ? WHERE module_id = ?");
-        if ($updateStmt === false) {
-            die("Failed to prepare statement: " . $con->error);
-        }
         $updateStmt->bind_param("ssi", $moduleTitle, $moduleDescription, $module_id);
         $updateStmt->execute();
         $lastInsertedModuleId = $module_id; // Retrieve the auto-generated module_id
@@ -47,9 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Module does not exist, insert a new Module record
         $insertStmt = $con->prepare("INSERT INTO Module (module_title, module_description, module_creator_id) VALUES (?, ?, ?)");
-        if ($insertStmt === false) {
-            die("Failed to prepare statement: " . $con->error);
-        }
         $insertStmt->bind_param("sss", $moduleTitle, $moduleDescription, $user_id);
         $insertStmt->execute();
         $lastInsertedModuleId = $con->insert_id; // Retrieve the auto-generated module_id
@@ -116,8 +111,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $con->close();
-    // header("Location: Profile.php");
-    echo "<a href=\"Profile.php\">Back to Profile</a>";
+    try {
+        // Redirect to Profile.php
+        header("Location: Profile.php");
+        exit();
+    } catch (Exception $e) {
+        // log error
+        echo "<a href=\"Profile.php\">Back to Profile</a>";
+        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $e->getMessage();
+        error_log($error . "\n", 3, "logs/errors.log");
+    }
     exit();
 }
 

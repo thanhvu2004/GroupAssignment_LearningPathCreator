@@ -1,5 +1,5 @@
 <?php
-        
+        ini_set('display_errors', 0);
         session_start();
         include "checkConnection.php";
         define('CONTENT_TYPE_JSON', 'application/json');
@@ -86,7 +86,8 @@
         header(CONTENT_TYPE_JSON);
         echo json_encode(['updatedRating' => $currentRating,'action' => $action]);
         } else {
-            echo "Module not found.";
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Module not found.";
+            error_log($error . "\n", 3, "logs/errors.log");
         }
 
         // Close database connection
@@ -95,5 +96,7 @@
         http_response_code(400); // Bad Request
         header('Content-Type: application/json');
         echo json_encode(['error' => 'invalid_request']);
+        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Invalid request.";
+        error_log($error . "\n", 3, "logs/errors.log");
         exit;
     }

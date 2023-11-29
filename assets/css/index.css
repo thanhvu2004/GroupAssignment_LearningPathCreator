@@ -95,13 +95,7 @@
 @media only screen and (max-width: 768px) {
     /* Media query for screens smaller than 768px */
     .module {
-        width: calc(50% - 1%);
-    }
-    .module p {
-        font-size: 1.5vw;
-    }
-    .objectives {
-        font-size: 1.25vw;
+        width: 80%;
     }
 }
 
@@ -119,7 +113,7 @@
 }
 
 .objectives a:hover {
-    border-left: #21A179 solid 2px;
+    border-left: #21A179 solid 5px;
     color: #21A179;
 }
 

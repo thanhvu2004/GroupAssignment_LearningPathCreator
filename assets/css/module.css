@@ -1,0 +1,28 @@
+.path {
+    margin: 20px 20% 20px 20%;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+p, h2 {
+    margin: 20px;
+    text-align: left;
+}
+a {
+    text-decoration: none;
+    max-width: fit-content;
+    color: black;
+}
+a:hover h3{
+    text-decoration: underline;
+    border-left: #04AA6D 5px solid;
+    opacity: 0.8;
+}
+h3 {
+    text-decoration: none;
+    max-width: fit-content;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}

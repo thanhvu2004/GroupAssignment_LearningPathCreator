@@ -1,10 +1,8 @@
 <?php
+    ini_set('display_errors', 0);
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
-    } else {
-        header('Location: Login.php?error=401');
-        exit;
     }
     include "checkConnection.php";
 
@@ -12,7 +10,7 @@
     $objectives = null;
     if (isset($_GET['module_id'])) {
         $moduleId = $_GET['module_id'];
-        $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
+        $con = checkConnectionDb();
         // check if the user is the creator of the module
         $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ?");
         $stmt->bind_param("i", $moduleId);
@@ -21,7 +19,16 @@
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             if ($row['module_creator_id'] != $_SESSION['user_id']) {
-                header('Location: Login.php');
+                $_SESSION = array();
+                if (ini_get("session.use_cookies")) {
+                    $params = session_get_cookie_params();
+                    setcookie(session_name(), '', time() - 42000,
+                        $params["path"], $params["domain"],
+                        $params["secure"], $params["httponly"]
+                    );
+                }
+                session_destroy();
+                header('Location: Login.php?error=401');
                 exit;
             }
         }
@@ -70,7 +77,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="assets/css/navbar.css">
-        <link rel="stylesheet" href="assets/css/main.css?v=1.2">
+        <link rel="stylesheet" href="assets/css/main.css">
     </head>
     <body>
         <?php include "NavBar.php";?>

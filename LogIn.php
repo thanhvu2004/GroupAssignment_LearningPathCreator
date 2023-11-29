@@ -2,7 +2,7 @@
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
-    }
+    } 
     include "checkConnection.php";
     $errors = array('login' => '');
     function loginValidate($login_email, $login_password) {
@@ -54,17 +54,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainPage</title>
-    <link rel="stylesheet" href="assets/css/navbar.css?v=1.2">
-    <link rel="stylesheet" href="assets/css/main.css?v=1.5">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
     <?php include "navbar.php";?>
     <?php 
         if(isset($_GET['error'])){
             if($_GET['error'] == 401){
-                echo "<h2>You must be logged in before create and share your path!</h2>";
+                echo "<h2>Your credential does not match to access previous page. Log in again!</h2>";
             }
-        }
+        } 
     ?>
     <h1>Log in</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">

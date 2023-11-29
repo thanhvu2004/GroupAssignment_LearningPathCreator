@@ -12,6 +12,7 @@ if (isset($_POST['objective_id'])) {
             return;
         }
     }
-
-    echo "Objective not found";
+    // log error
+    $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Objective not found";
+    error_log($error . "\n", 3, "logs/errors.log");
 }

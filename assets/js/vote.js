@@ -2,7 +2,7 @@ function vote(action, moduleId) {
   document.getElementById("upvote_" + moduleId).disabled = true;
   document.getElementById("downvote_" + moduleId).disabled = true;
 
-  fetch("update_rating.php", {
+  fetch("updateRating.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,8 +16,9 @@ function vote(action, moduleId) {
       if (!response.ok) {
         if (response.status === 401) {
           document.getElementById("popup").classList.add("show");
+          console.clear();
         } else {
-          throw new Error("Network response was not ok");
+          window.location.href = "error.php?error="+response.statusText;
         }
       }
       return response.json();

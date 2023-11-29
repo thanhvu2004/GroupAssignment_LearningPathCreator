@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
-    <link rel="stylesheet" href="assets/css/main.css?v=1.1">
+    <link rel="stylesheet" href="assets/css/main.css">
 
 </head>
 <body>
     <?php include "NavBar.php";?>
     <h1>Oops! Something went wrong.</h1>
     <?php 
+        ini_set('display_errors', 0);   
         // get the error message from the URL
         $error = $_GET['error'];
         if ($error==500){
@@ -28,6 +29,7 @@
             echo "<h2>Something went wrong</p>";
         }
     ?>
+    <a href="index.php">Try again</a>
 
 </body>
 </html>

@@ -1,8 +1,9 @@
 <?php
+    ini_set('display_errors', 0);
     session_start();
 
     if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php');
+        header('Location: login.php?error=401');
         exit;
     }
     include "checkConnection.php";
@@ -48,12 +49,18 @@
                     echo "Image uploaded successfully!";
                 } else {
                     echo "Error: Unable to process the uploaded image.";
+                    $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Unable to process the uploaded image.";
+                    error_log($error . "\n", 3, "logs/errors.log");
                 }
             } else {
                 echo "Error: There was a problem with the uploaded file.";
+                $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: There was a problem with the uploaded file.";
+                error_log($error . "\n", 3, "logs/errors.log");
             }
         } else {
             echo "User not found.";
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: User not found.";
+            error_log($error . "\n", 3, "logs/errors.log");
         }
         $con->close();
         header('Location: profile.php');
@@ -70,7 +77,11 @@
         if ($imageInfo !== false) {
             if ($imageInfo['mime'] == 'image/jpeg' || $imageInfo['mime'] == 'image/png' || $imageInfo['mime'] == 'image/gif') {
                 $imageData = file_get_contents($imageFile['tmp_name']);
+            } else {
+                return false;
             }
+        } else {
+            return false;
         }
 
         $newImage = imagecreatetruecolor(500, 500);
@@ -107,6 +118,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile Image</title>
+    <link rel="stylesheet" href="assets/css/main.css?v=1.1">
 </head>
 
 <body>
@@ -115,8 +127,8 @@
         <input type="file" id="image" name="image">
         <br>
         <input type="submit" value="Update Profile">
-        <link rel="stylesheet" href="assets/css/main.css">
     </form>
+    <br><a class="btn" href="profile.php">Back to Profile</a>
 </body>
 
 </html>

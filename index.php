@@ -1,4 +1,5 @@
 <?php
+    ini_set('display_errors', 0);
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
@@ -13,7 +14,7 @@
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css?v=1.3">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
     <?php include "NavBar.php";?>
@@ -23,7 +24,7 @@
         <h2>Welcome to the Learning Path Creator!</h2>
         <p>Here you can create your own learning path and share it with others!</p>
         <p>Click on the "Create Path" button to get started!</p>
-        <a href="CreatePath.php"><button class="btn">Create Path</button></a>
+        <a href="createPath.php"><button class="btn">Create Path</button></a>
     </div>
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
@@ -31,6 +32,10 @@
             $con = checkConnectionDb();
 
             $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module");
+            if (!$stmt) {
+                $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+                error_log($error . "\n", 3, "logs/errors.log");
+            }
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
@@ -40,7 +45,15 @@
                     echo    "<p>" . $row['module_description'] . "</p>";
                     // show the module's objectives and the url for each objective
                     $stmt2 = $con->prepare("SELECT objective_title, objective_url FROM Objective WHERE module_id = ?");
+                    if (!$stmt2) {
+                        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+                        error_log($error . "\n", 3, "logs/errors.log");
+                    }
                     $stmt2->bind_param("i", $row['module_id']);
+                    if (!$stmt2->execute()) {
+                        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $stmt2->error;
+                        error_log($error . "\n", 3, "logs/errors.log");
+                    }
                     $stmt2->execute();
                     $result2 = $stmt2->get_result();
                     if ($result2->num_rows > 0) {
@@ -69,6 +82,7 @@
                         echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";                  
                     }
                     echo "<p id=\"currentRating_{$row['module_id']}\">" . number_format($row['rating'], 0) . "</p>";
+                    echo "<a href='displayModule.php?moduleId={$row['module_id']}' class=\"btn right\"> Learn more</a>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -85,6 +99,6 @@
             <a href="signup.php">Sign up</a>
         </div>
     </div>
-    <script src="assets/js/vote.js?v=2.0"></script>
+    <script src="assets/js/vote.js"></script>
 </body>
 </html>
