@@ -82,23 +82,20 @@
             <textarea id="moduleDescription" name="moduleDescription" required><?php echo $module ? htmlspecialchars_decode($module['module_description']) : ''; ?></textarea>
             
             <div id="objectives">
-                <div class="objective">
-                    <label for="objectiveTitle1">Objective Title:</label>
-                    <input type="text" id="objectiveTitle1" name="objectiveTitle[]" value="<?php echo $objectives ? $objectives[0]['objective_title'] : ''; ?>" required>
-
-                    <label for="objectiveUrl1">Objective URL:</label>
-                    <input type="url" id="objectiveUrl1" name="objectiveUrl[]" value="<?php echo $objectives ? $objectives[0]['objective_url'] : ''; ?>" required>
-                </div>
                 <?php
                     // Add the required number of Objective title and url field
                     if ($objectives) {
-                        for ($i = 1; $i < count($objectives); $i++) {
+                        for ($i = 0; $i < count($objectives); $i++) {
                             echo '<div class="objective">';
                             echo    '<label for="objectiveTitle' . ($i + 1) . '">Objective Title:</label>';
                             echo    '<input type="text" id="objectiveTitle' . ($i + 1) . '" name="objectiveTitle[]" value="' . $objectives[$i]['objective_title'] . '" required>';
-
+                    
                             echo    '<label for="objectiveUrl' . ($i + 1) . '">Objective URL:</label>';
                             echo    '<input type="url" id="objectiveUrl' . ($i + 1) . '" name="objectiveUrl[]" value="' . $objectives[$i]['objective_url'] . '" required>';
+                    
+                            // Add a delete button next to each objective, but disable it if there's only one objective
+                            echo '<button type="button" onclick="deleteObjective(this, ' . $objectives[$i]['objective_id'] . ')" ' . (count($objectives) <= 1 ? 'disabled' : '') . '>Delete</button>';
+                    
                             echo '</div>';
                         }
                     }
@@ -109,6 +106,6 @@
             <input type="submit" value="Submit">
         </form>
 
-        <script src="assets/js/addObjective.js"></script>
+        <script src="assets/js/addObjective.js?v=1.5"></script>
     </body>
 </html>

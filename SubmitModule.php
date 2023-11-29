@@ -98,19 +98,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $updateStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $O_objectiveIds[$i]);
                 $updateStmt->execute();
             }
-        } else {
+        } elseif (count($O_objectiveTitles) > count($P_objectiveTitles)) {
+            // Update objectives
+            echo "O_objectiveTitles > P_objectiveTitles, updating objectives"; // debug
+            for ($i = 0; $i < count($P_objectiveTitles); $i++) {
+                $updateStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $O_objectiveIds[$i]);
+                $updateStmt->execute();
+            }
             // Delete objectives
+            echo "O_objectiveTitles > P_objectiveTitles, deleting objectives"; // debug
             for ($i = count($P_objectiveTitles); $i < count($O_objectiveTitles); $i++) {
                 $deleteStmt = $con->prepare("DELETE FROM Objective WHERE objective_id = ?");
                 $deleteStmt->bind_param("i", $O_objectiveIds[$i]);
                 $deleteStmt->execute();
-                $deleteStmt->close();
             }
-        } 
+        }
     }
     
     $con->close();
-    header("Location: Profile.php");
+    // header("Location: Profile.php");
+    echo "<a href=\"Profile.php\">Back to Profile</a>";
     exit();
 }
 

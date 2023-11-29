@@ -32,3 +32,18 @@ document.getElementById("addObjective").addEventListener("click", function () {
 
   objectives.appendChild(objective);
 });
+
+function deleteObjective(button, objectiveId) {
+  // Delete the objective
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "deleteObjective.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      // Remove the objective element from the DOM
+      var objective = button.parentNode;
+      objective.parentNode.removeChild(objective);
+    }
+  };
+  xhr.send("objective_id=" + objectiveId);
+}
