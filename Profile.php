@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="assets/css/profile.css?v=1.2">
 </head>
 <body>
-    <?php include "navbar.php"; ?>
+    <?php include "NavBar.php"; ?>
     <!-- Profile -->
     <h1>Profile</h1>
     <div class="container">

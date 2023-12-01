@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
-        $user_id = $_SESSION['user_id'];
+        header('Location: index.php');
     } 
     include "checkConnection.php";
     $errors = array('login' => '');
@@ -58,8 +58,8 @@
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    <?php include "navbar.php";?>
     <?php 
+        include "NavBar.php";?>
         if(isset($_GET['error'])){
             if($_GET['error'] == 401){
                 echo "<h2>Your credential does not match to access previous page. Log in again!</h2>";

@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // log error
         echo "<a href=\"Profile.php\">Back to Profile</a>";
         $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $e->getMessage();
-        error_log($error . "\n", 3, "logs/errors.log");
+        error_log($error . "\n", 3, "error.log");
     }
     exit();
 }

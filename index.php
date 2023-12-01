@@ -1,6 +1,12 @@
 <?php
     ini_set('display_errors', 0);
     session_start();
+    if (isset($_GET['logout'])) {
+        session_unset();
+        session_destroy();
+        header('Location: index.php');
+        exit;
+    }
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
@@ -34,7 +40,7 @@
             $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module");
             if (!$stmt) {
                 $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
-                error_log($error . "\n", 3, "logs/errors.log");
+                error_log($error . "\n", 3, "error.log");
             }
             $stmt->execute();
             $result = $stmt->get_result();
@@ -47,12 +53,12 @@
                     $stmt2 = $con->prepare("SELECT objective_title, objective_url FROM Objective WHERE module_id = ?");
                     if (!$stmt2) {
                         $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
-                        error_log($error . "\n", 3, "logs/errors.log");
+                        error_log($error . "\n", 3, "error.log");
                     }
                     $stmt2->bind_param("i", $row['module_id']);
                     if (!$stmt2->execute()) {
                         $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $stmt2->error;
-                        error_log($error . "\n", 3, "logs/errors.log");
+                        error_log($error . "\n", 3, "error.log");
                     }
                     $stmt2->execute();
                     $result2 = $stmt2->get_result();

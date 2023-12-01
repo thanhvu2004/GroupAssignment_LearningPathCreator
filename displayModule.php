@@ -9,18 +9,30 @@
     <link rel="stylesheet" href="assets/css/module.css">
 </head>
 <body>
-    <?php include "NavBar.php";?>
+    <?php 
+        session_start();
+        include "NavBar.php";
+    ?>
     <h1>Display Module</h1>
     <?php 
         include "checkConnection.php";
         $moduleId = $_GET['moduleId'];
         $con = checkConnectionDb();
-        $stmt = $con->prepare("SELECT * FROM Module WHERE module_id = ?");
+        $stmt = $con->prepare(" SELECT Module.*, User.first_name, User.last_name 
+                                FROM Module INNER JOIN User 
+                                ON Module.module_creator_id = User.user_id 
+                                WHERE Module.module_id = ?");
         $stmt->bind_param("i", $moduleId);
         $stmt->execute();
+        // check for error in the query
+        if (!$stmt) {
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+            error_log($error . "\n", 3, "error.log");
+        }
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $module = $result->fetch_assoc();
+            $creatorName = $module['first_name']. " " . $module['last_name'];
         }
         // Show the module 
         echo "<div class='path'>";
@@ -28,6 +40,7 @@
         echo    "<h2>" . $module['module_title'] . "</h2>";
         echo    "<p>" . $module['module_description'] . "</p>";
         echo    "<p>Rating: " . $module['rating'] . "</p>";
+        echo    "<p>Creator: " . $creatorName . "</p>";
         echo "</div>";
         $stmt = $con->prepare("SELECT * FROM Objective WHERE module_id = ?");
         $stmt->bind_param("i", $moduleId);

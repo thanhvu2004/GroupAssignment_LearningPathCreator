@@ -50,17 +50,17 @@
                 } else {
                     echo "Error: Unable to process the uploaded image.";
                     $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Unable to process the uploaded image.";
-                    error_log($error . "\n", 3, "logs/errors.log");
+                    error_log($error . "\n", 3, "error.log");
                 }
             } else {
                 echo "Error: There was a problem with the uploaded file.";
                 $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: There was a problem with the uploaded file.";
-                error_log($error . "\n", 3, "logs/errors.log");
+                error_log($error . "\n", 3, "error.log");
             }
         } else {
             echo "User not found.";
             $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: User not found.";
-            error_log($error . "\n", 3, "logs/errors.log");
+            error_log($error . "\n", 3, "error.log");
         }
         $con->close();
         header('Location: profile.php');
