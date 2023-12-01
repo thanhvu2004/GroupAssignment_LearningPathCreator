@@ -50,7 +50,7 @@
 
 .module > *:nth-child(1) {
     height: 50px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .module > *:nth-child(2) {

@@ -12,7 +12,7 @@
             $error = date_default_timezone_set('America/Toronto') . " " . $e->getMessage() . "\n";
             error_log($error, 3, "error.log");
             // redirect user to error page
-            header("Location: error.php?error=500");
+            // header("Location: error.php?error=500");
             exit;
         }
         return $con;
