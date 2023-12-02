@@ -8,8 +8,8 @@
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Ensure user is logged in or implement necessary authentication checks
             if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-                http_response_code(401); // Unauthorized
-                echo json_encode(['error' => 'not_logged_in']);
+                http_response_code(200); // Unauthorized
+                echo json_encode(['error' => 'not_logged_in', 'code' => 401]);
                 exit;
             }
 
@@ -83,6 +83,7 @@
         $updateStmt->execute();
 
         // Return the updated rating as a JSON response
+        error_log(CONTENT_TYPE_JSON . "\n", 3, "error.log");
         header(CONTENT_TYPE_JSON);
         echo json_encode(['updatedRating' => $currentRating,'action' => $action]);
         } else {

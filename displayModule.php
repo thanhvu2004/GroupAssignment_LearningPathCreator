@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/module.css">
+    <link rel="stylesheet" href="assets/css/rating.css">
 </head>
 <body>
     <?php 
@@ -39,7 +40,7 @@
         echo "<div class='module'>";
         echo    "<h2>" . $module['module_title'] . "</h2>";
         echo    "<p>" . $module['module_description'] . "</p>";
-        echo    "<p>Rating: " . $module['rating'] . "</p>";
+        echo    "<p>Rating: <span id=\"currentRating_". $moduleId . "\">" . $module['rating'] . "</span></p>";
         echo    "<p>Creator: " . $creatorName . "</p>";
         echo "</div>";
         $stmt = $con->prepare("SELECT * FROM Objective WHERE module_id = ?");
@@ -62,5 +63,41 @@
         $stmt->close();
         $con->close();
     ?>
+    <!-- FLoating upvote and downvote buttons -->
+    <div class="rating" id="vote">
+        <p>Rate this path</p>
+        <?php
+            $con = checkConnectionDb();
+            if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+                $user_id = $_SESSION['user_id'];
+            }
+            $stmt2 = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");
+            $stmt2->bind_param("ii", $user_id, $moduleId);
+            $stmt2->execute();
+            $result2 = $stmt2->get_result();
+            if ($result2->num_rows > 0) {
+                if ($result2->fetch_assoc()['vote'] == 'up'){
+                    echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                    echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";  
+                } else {
+                    echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                    echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";    
+                }              
+            } else {
+                echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
+            }
+?>
+    </div>
+    <div id="popup">
+        <div class="popup-content">
+            <span id="close">&times;</span>
+            <h2>Log in or sign up to vote!</h2>
+            <a href="LogIn.php">Log in</a>
+            <a href="SignUp.php">Sign up</a>
+        </div>
+    </div>
+    <script src="assets/js/vote.js"></script>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

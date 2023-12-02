@@ -59,7 +59,7 @@
 </head>
 <body>
     <?php 
-        include "NavBar.php";?>
+        include "NavBar.php";
         if(isset($_GET['error'])){
             if($_GET['error'] == 401){
                 echo "<h2>Your credential does not match to access previous page. Log in again!</h2>";

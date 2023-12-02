@@ -4,13 +4,13 @@
         width: 90%; /* Adjust width for smaller screens */
     }
     h1 {
-        font-size: 3.5vw;
+        font-size: 17px;
     }
     h2 {
-        font-size: 3vw;
+        font-size: 16px;
     }
     h3 {
-        font-size: 2.5vw;
+        font-size: 15px;
     }
 }
 
@@ -122,6 +122,8 @@ a.btn:hover {
     margin: 20px auto 0 0;
 }
 
-.right {
-    float: right;
+#warining {
+    color: red;
+    font-size: 12px;
+    margin: 0 auto 0 0;
 }

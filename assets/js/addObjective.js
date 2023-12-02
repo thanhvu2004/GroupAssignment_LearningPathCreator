@@ -56,3 +56,12 @@ function deleteObjective(button, objectiveId) {
   };
   xhr.send("objective_id=" + objectiveId);
 }
+
+function validateForm() {
+  var objectives = document.getElementById("objectives").children;
+  if (objectives.length === 0) {
+    document.getElementById("warning").innerText = "Please add at least one objective.";
+    return false;
+  }
+  return true;
+}

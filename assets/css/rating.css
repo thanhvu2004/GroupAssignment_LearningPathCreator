@@ -1,0 +1,85 @@
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.rating .selected {
+    background-color: rgb(82, 49, 141);
+    color: #fff;
+}
+.rating :last-child {
+    margin-left: auto;
+}
+.rating button {
+    background-color: #21A179;
+    border: none;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 18px;
+}
+.rating button:hover {
+    opacity: 0.8;
+}
+.rating button:disabled {
+    background-color: #ccc;
+}
+.rating p{
+    display: inline-block;
+    margin: 2px;
+    padding: 1px 5px 1px 5px;
+}
+#popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#popup.show {
+    display: flex;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.popup-content a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #21A179;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+    width: 100%;
+    text-align: center;
+    max-width: none;
+}
+
+.popup-content a:hover {
+    background-color: #000;
+}
+
+#close {
+    align-self: flex-start;
+    font-size: 30px;
+    color: #21A179;
+    cursor: pointer;
+}

@@ -9,7 +9,7 @@ window.onload = function () {
 
     if (countdown < 0) {
       clearInterval(countdownInterval);
-      window.location.href = "login.php";
+      window.location.href = "LogIn.php";
     } else {
       countdownNumberEl.textContent = countdown;
     }

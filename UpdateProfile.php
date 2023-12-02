@@ -3,7 +3,7 @@
     session_start();
 
     if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php?error=401');
+        header('Location: LogIn.php?error=401');
         exit;
     }
     include "checkConnection.php";
@@ -24,7 +24,7 @@
             // Check file upload and handle image processing
             if ($_FILES['image']['error'] == 0) {
                 $imageData = handleImageUpload($_FILES['image']);
-
+                $error = "";
                 if ($imageData !== false) {
                     $imageType = $_FILES['image']['type']; // Get image type
 
@@ -45,25 +45,25 @@
                         $insertStmt->bind_param("ssi", $imageData, $imageType, $user_id);
                         $insertStmt->execute();
                     }
-
-                    echo "Image uploaded successfully!";
                 } else {
-                    echo "Error: Unable to process the uploaded image.";
+                    echo "<p class=\"error\">Error: Unable to process the uploaded image.</p>";
                     $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Unable to process the uploaded image.";
                     error_log($error . "\n", 3, "error.log");
                 }
             } else {
-                echo "Error: There was a problem with the uploaded file.";
+                echo "<p class=\"error\">Error: There was a problem with the uploaded file.</p>";
                 $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: There was a problem with the uploaded file.";
                 error_log($error . "\n", 3, "error.log");
             }
         } else {
-            echo "User not found.";
+            echo "<p class=\"error\">User not found.</p>";
             $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: User not found.";
             error_log($error . "\n", 3, "error.log");
         }
         $con->close();
-        header('Location: profile.php');
+        if ($error == "") {
+            header('Location: Profile.php');
+        }
     }
 
     // Function to handle image upload and processing
@@ -128,7 +128,7 @@
         <br>
         <input type="submit" value="Update Profile">
     </form>
-    <br><a class="btn" href="profile.php">Back to Profile</a>
+    <br><a class="btn" href="Profile.php">Back to Profile</a>
 </body>
 
 </html>

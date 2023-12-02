@@ -4,7 +4,7 @@ session_start();
 if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header('Location: Login.php?error=401');
+    header('Location: LogIn.php?error=401');
     exit;
 }
 // get the objective data from the session
@@ -55,24 +55,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST["objectiveTitle"]) && !empty($_POST["objectiveUrl"])) {
         $P_objectiveTitles = $_POST["objectiveTitle"];
         $P_objectiveUrls = $_POST["objectiveUrl"];
-        echo "P_objectiveTitles: " . count($P_objectiveTitles) . "<br>"; // debug
-        echo "P_objectiveUrls: " . count($P_objectiveUrls) . "<br>"; // debug
-        echo "O_objectiveTitles: " . count($O_objectiveTitles) . "<br>"; // debug
-        echo "O_objectiveUrls: " . count($O_objectiveUrls) . "<br>"; // debug
 
         $insertStmt = $con->prepare("INSERT INTO Objective (objective_title, objective_url, module_id) VALUES (?, ?, ?)");
         $updateStmt = $con->prepare("UPDATE Objective SET objective_title = ?, objective_url = ? WHERE objective_id = ?");
         
         if (count($O_objectiveTitles) == 0) {
             // Insert new objectives
-            echo "nothing in O_objectiveTitles, inserting new objectives"; // debug
             for ($i = 0; $i < count($P_objectiveTitles); $i++) {
                 $insertStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $lastInsertedModuleId);
                 $insertStmt->execute();
             }
         } elseif (count($O_objectiveTitles) < count($P_objectiveTitles)) {
             // Insert new objectives
-            echo "O_objectiveTitles < P_objectiveTitles, inserting new objectives"; // debug
             for ($i = count($O_objectiveTitles); $i < count($P_objectiveTitles); $i++) {
                 $insertStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $lastInsertedModuleId);
                 $insertStmt->execute();
@@ -80,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Check if there are any objectives to update
             if (count($O_objectiveTitles) > 0) {
                 // Update objectives
-                echo "O_objectiveTitles > 0, updating objectives"; // debug
                 for ($i = 0; $i < count($O_objectiveTitles); $i++) {
                     $updateStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $O_objectiveIds[$i]);
                     $updateStmt->execute();
@@ -88,20 +81,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } elseif (count($O_objectiveTitles) == count($P_objectiveTitles)) {
             // Update objectives
-            echo "O_objectiveTitles == P_objectiveTitles, updating objectives"; // debug
             for ($i = 0; $i < count($P_objectiveTitles); $i++) {
                 $updateStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $O_objectiveIds[$i]);
                 $updateStmt->execute();
             }
         } elseif (count($O_objectiveTitles) > count($P_objectiveTitles)) {
             // Update objectives
-            echo "O_objectiveTitles > P_objectiveTitles, updating objectives"; // debug
             for ($i = 0; $i < count($P_objectiveTitles); $i++) {
                 $updateStmt->bind_param("ssi", $P_objectiveTitles[$i], $P_objectiveUrls[$i], $O_objectiveIds[$i]);
                 $updateStmt->execute();
             }
             // Delete objectives
-            echo "O_objectiveTitles > P_objectiveTitles, deleting objectives"; // debug
             for ($i = count($P_objectiveTitles); $i < count($O_objectiveTitles); $i++) {
                 $deleteStmt = $con->prepare("DELETE FROM Objective WHERE objective_id = ?");
                 $deleteStmt->bind_param("i", $O_objectiveIds[$i]);
@@ -111,17 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $con->close();
-    try {
-        // Redirect to Profile.php
-        header("Location: Profile.php");
-        exit();
-    } catch (Exception $e) {
-        // log error
-        echo "<a href=\"Profile.php\">Back to Profile</a>";
-        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $e->getMessage();
-        error_log($error . "\n", 3, "error.log");
-    }
-    exit();
+    header("Location: Profile.php");
 }
 
 // Function to sanitize input

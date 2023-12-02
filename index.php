@@ -20,7 +20,8 @@
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/index.css   ">
+    <link rel="stylesheet" href="assets/css/rating.css">
 </head>
 <body>
     <?php include "NavBar.php";?>
@@ -77,18 +78,18 @@
                     $result2 = $stmt2->get_result();
                     if ($result2->num_rows > 0) {
                         if ($result2->fetch_assoc()['vote'] == 'up'){
-                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\" class=\"selected\">&#8679;</button>";
-                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";  
+                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\" class=\"selected\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";  
                         } else {
-                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
-                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\" class=\"selected\">&#8681;</button>";    
+                            echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                            echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\" class=\"selected\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";    
                         }              
                     } else {
-                        echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\">&#8679;</button>";
-                        echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\">&#8681;</button>";                  
+                        echo "<button onclick=\"vote('up', {$row['module_id']})\" id=\"upvote_{$row['module_id']}\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                        echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
                     }
                     echo "<p id=\"currentRating_{$row['module_id']}\">" . number_format($row['rating'], 0) . "</p>";
-                    echo "<a href='displayModule.php?moduleId={$row['module_id']}' class=\"btn right\"> Learn more</a>";
+                    echo "<a href='displayModule.php?moduleId={$row['module_id']}' class=\"btn\"> Learn more</a>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -97,14 +98,15 @@
         ?>
     </div>
         <!-- pop up to prompt the user to log in/sign up if the user haven't -->
-    <div id="popup" class="">
+    <div id="popup">
         <div class="popup-content">
             <span id="close">&times;</span>
             <h2>Log in or sign up to vote!</h2>
-            <a href="login.php">Log in</a>
-            <a href="signup.php">Sign up</a>
+            <a href="LogIn.php">Log in</a>
+            <a href="SignUp.php">Sign up</a>
         </div>
     </div>
     <script src="assets/js/vote.js"></script>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

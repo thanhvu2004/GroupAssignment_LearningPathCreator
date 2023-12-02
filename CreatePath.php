@@ -3,6 +3,8 @@
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
+    } else {
+        header('Location: LogIn.php?error=401');
     }
     include "checkConnection.php";
 
@@ -28,7 +30,7 @@
                     );
                 }
                 session_destroy();
-                header('Location: Login.php?error=401');
+                header('Location: LogIn.php?error=401');
                 exit;
             }
         }
@@ -81,7 +83,7 @@
     </head>
     <body>
         <?php include "NavBar.php";?>
-        <form id="moduleForm" method="post" action="submitModule.php<?php echo isset($moduleId) ? "?module_id=".$moduleId : ""; ?>">
+        <form id="moduleForm" method="post" action="SubmitModule.php<?php echo isset($moduleId) ? "?module_id=".$moduleId : ""; ?>" onsubmit="return validateForm()">
             <label for="moduleTitle">Module Title:</label>
             <input type="text" id="moduleTitle" name="moduleTitle" value="<?php echo $module ? $module['module_title'] : ''; ?>" required>
 
@@ -111,6 +113,7 @@
 
             <button type="button" id="addObjective" class="btn add">Add Objective</button>
             <input type="submit" value="Submit">
+            <p id="warning"></p>
         </form>
 
         <script src="assets/js/addObjective.js"></script>
