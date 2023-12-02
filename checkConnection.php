@@ -2,7 +2,11 @@
     ini_set('display_errors', 0);
     function checkConnectionDb(){
         try {
-            // Attempt to establish a database connection
+            $url = "https://<studentId>.gblearn.com/comp1230/assignments/project/";
+            $parsedUrl = parse_url($url);
+            $studentId = basename($parsedUrl['host']);
+
+            $con = new mysqli("f3411302.gblearn.com", $studentId . "_admin", "admin", "f3411302_LearningPathCreator");
             $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
             if ($con->connect_error) {
                 throw new Exception("Database connection failed: " . $con->connect_error);

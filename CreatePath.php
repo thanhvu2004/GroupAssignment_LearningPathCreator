@@ -10,7 +10,8 @@
 
     $module = null;
     $objectives = null;
-    if (isset($_GET['module_id'])) {
+    if (isset($_GET['module_id']) // If the user is editing a module
+        || isset($_GET['module_id']) && isset($_GET['creator_id'])) { // If the user clone a module
         $moduleId = $_GET['module_id'];
         $con = checkConnectionDb();
         // check if the user is the creator of the module
@@ -117,5 +118,6 @@
         </form>
 
         <script src="assets/js/addObjective.js"></script>
+        <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
     </body>
 </html>

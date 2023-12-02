@@ -20,7 +20,7 @@
     <title>Home page</title>
     <link rel="stylesheet" href="assets/css/navbar.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css   ">
+    <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/rating.css">
 </head>
 <body>
@@ -33,6 +33,33 @@
         <p>Click on the "Create Path" button to get started!</p>
         <a href="createPath.php"><button class="btn">Create Path</button></a>
     </div>
+    <!-- Display search results -->
+    <?php
+        if (isset($_GET['search'])) {
+            echo "<div class=\"SearchResult AllModules\">";
+                echo "<h2>Search results for \"" . $_GET['search'] . "\"</h2>";
+                $con = checkConnectionDb();
+                $searchTerm = $_GET['search'];
+                $stmt = $con->prepare("SELECT module_title, module_description FROM Module WHERE module_title LIKE ? OR module_description LIKE ?");
+                if (!$stmt) {
+                    $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+                    error_log($error . "\n", 3, "error.log");
+                }
+                $searchTerm = "%" . $searchTerm . "%";
+                $stmt->bind_param("ss", $searchTerm, $searchTerm);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<p><a href='displayModule.php?id=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
+                    }
+                } else {
+                    echo "<h2>No results found</h2>";
+                }
+                $con->close();
+            echo "</div>";
+        }
+    ?>
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
         <?php

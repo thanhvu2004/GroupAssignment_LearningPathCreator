@@ -79,5 +79,6 @@
         <span class="error"><?php echo $errors['login']; ?></span><br>
         <span>Don't have an account? </span><a href="SignUp.php">Join Us</a>
     </form>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

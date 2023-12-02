@@ -102,5 +102,6 @@
 
         <input type="submit" value="Sign up!">  
     </form>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

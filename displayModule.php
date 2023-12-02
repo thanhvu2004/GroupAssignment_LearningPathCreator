@@ -38,6 +38,7 @@
         if ($result->num_rows > 0) {
             $module = $result->fetch_assoc();
             $creatorName = $module['first_name']. " " . $module['last_name'];
+            $creatorId = $module['module_creator_id'];
         }
         // Show the module 
         echo "<div class='path'>";
@@ -89,6 +90,10 @@
                     echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
                     echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
                 }
+                echo "<button onclick=\"share($moduleId)\" id=\"share_$moduleId\"><i class=\"fa-solid fa-share\"></i></i></button>";
+                echo "<button onlick=\"clone($moduleId,$creatorId)\" id=\"clone_$moduleId\"><i class=\"fa-solid fa-clone\"></i></button>";
+                $con->close();
+                $stmt2->close();
             } catch (Exception $e) {
                 error_log($e->getMessage(), 3, 'error.log');
             }
@@ -100,6 +105,14 @@
             <h2>Log in or sign up to vote!</h2>
             <a href="LogIn.php">Log in</a>
             <a href="SignUp.php">Sign up</a>
+        </div>
+    </div>
+    <div id="popup2">
+        <div class="popup-content">
+            <span id="close2">&times;</span>
+            <h2>Share this path</h2>
+            <input type="text" id="shareLink">
+            <button class="btn" onclick="copyLink()">Copy</button>
         </div>
     </div>
     <script src="assets/js/vote.js"></script>

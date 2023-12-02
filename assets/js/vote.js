@@ -65,6 +65,26 @@ function handleResponse(data, moduleId) {
   }
 }
 
+function share(moduleId) {
+  var url = window.location.href;
+  var link = url.split("?")[0] + "?moduleId=" + moduleId;
+  navigator.clipboard.writeText(link);
+  document.getElementById("shareLink").value = link;
+  document.getElementById("popup2").classList.add("show");
+}
+
+function copyLink() {
+  var copyText = document.getElementById("shareLink");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+}
+
+function clone(moduleId, creatorId) {
+  window.location.href =
+    "CreatePath.php?moduleId=" + moduleId + "&creatorId=" + creatorId;
+}
+
 // Close the popup when the user clicks outside of it or presses the escape key or clicks the close button with id "close"
 window.addEventListener("click", (event) => {
   if (event.target === document.getElementById("popup")) {
@@ -80,4 +100,21 @@ document.addEventListener("keydown", (evt) => {
 
 document.getElementById("close")?.addEventListener("click", () => {
   document.getElementById("popup")?.classList.remove("show");
+});
+
+// Close the popup when the user clicks outside of it or presses the escape key or clicks the close button with id "close2"
+window.addEventListener("click", (event) => {
+  if (event.target === document.getElementById("popup2")) {
+    document.getElementById("popup2")?.classList.remove("show");
+  }
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
+    document.getElementById("popup2")?.classList.remove("show");
+  }
+});
+
+document.getElementById("close2")?.addEventListener("click", () => {
+  document.getElementById("popup2")?.classList.remove("show");
 });

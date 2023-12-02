@@ -20,5 +20,6 @@
         </svg>
     </div>
     <script src="assets/js/countdown.js"></script>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>
