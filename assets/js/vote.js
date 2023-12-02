@@ -80,9 +80,9 @@ function copyLink() {
   document.execCommand("copy");
 }
 
-function clone(moduleId, creatorId) {
+function clone(moduleId, creatorName) {
   window.location.href =
-    "CreatePath.php?moduleId=" + moduleId + "&creatorId=" + creatorId;
+    "createPath.php?module_id=" + moduleId + "&creatorName=" + creatorName;
 }
 
 // Close the popup when the user clicks outside of it or presses the escape key or clicks the close button with id "close"

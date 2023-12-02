@@ -90,9 +90,8 @@
                     echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
                     echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
                 }
-                echo "<button onclick=\"share($moduleId)\" id=\"share_$moduleId\"><i class=\"fa-solid fa-share\"></i></i></button>";
-                echo "<button onlick=\"clone($moduleId,$creatorId)\" id=\"clone_$moduleId\"><i class=\"fa-solid fa-clone\"></i></button>";
-                $con->close();
+                echo "<button onclick=\"share($moduleId)\" id=\"share\"><i class=\"fa-solid fa-share\"></i></i></button>";
+                echo "<button onclick=\"clone($moduleId, '$creatorName')\" id=\"clone\"><i class=\"fa-solid fa-clone\"></i></button>";                $con->close();
                 $stmt2->close();
             } catch (Exception $e) {
                 error_log($e->getMessage(), 3, 'error.log');

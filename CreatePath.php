@@ -10,10 +10,17 @@
 
     $module = null;
     $objectives = null;
-    if (isset($_GET['module_id']) // If the user is editing a module
-        || isset($_GET['module_id']) && isset($_GET['creator_id'])) { // If the user clone a module
+    if (isset($_GET['module_id'])) { // If the user is editing a module
         $moduleId = $_GET['module_id'];
         $con = checkConnectionDb();
+        if (isset($_GET['creatorName'])) {
+            $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ? AND module_creator_id = 
+            (SELECT user_id FROM User WHERE CONCAT(first_name, ' ', last_name) = ?)");
+            $stmt->bind_param("is", $moduleId, $_GET['creatorName']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $originalCreatorId = $result->fetch_assoc()['module_creator_id'];
+        }
         // check if the user is the creator of the module
         $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ?");
         $stmt->bind_param("i", $moduleId);
@@ -21,18 +28,16 @@
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            if ($row['module_creator_id'] != $_SESSION['user_id']) {
-                $_SESSION = array();
-                if (ini_get("session.use_cookies")) {
-                    $params = session_get_cookie_params();
-                    setcookie(session_name(), '', time() - 42000,
-                        $params["path"], $params["domain"],
-                        $params["secure"], $params["httponly"]
-                    );
+            if ($row['module_creator_id'] != $_SESSION['user_id']) { // the url only have moduleId -> the user is not the creator of the module
+                if (isset($_GET['creatorName']) && $row['module_creator_id'] == $originalCreatorId) { // the url para have moduleId and creatorId -> the user is cloning the module from another user
+                    $originalCreator = $_GET['creatorName'];
+                } 
+                else { 
+                    $_SESSION = array();
+                    session_destroy();
+                    header('Location: LogIn.php?error=401');
+                    exit;
                 }
-                session_destroy();
-                header('Location: LogIn.php?error=401');
-                exit;
             }
         }
         // Data from the module table
@@ -84,12 +89,17 @@
     </head>
     <body>
         <?php include "NavBar.php";?>
-        <form id="moduleForm" method="post" action="SubmitModule.php<?php echo isset($moduleId) ? "?module_id=".$moduleId : ""; ?>" onsubmit="return validateForm()">
+        <form id="moduleForm" method="post" action="SubmitModule.php<?php echo isset($moduleId) ? "?module_id=".$moduleId : ""; echo isset($originalCreator) ? "&clone=1" : "";?>" onsubmit="return validateForm()">
             <label for="moduleTitle">Module Title:</label>
             <input type="text" id="moduleTitle" name="moduleTitle" value="<?php echo $module ? $module['module_title'] : ''; ?>" required>
 
             <label for="moduleDescription">Module Description:</label>
-            <textarea id="moduleDescription" name="moduleDescription" required><?php echo $module ? htmlspecialchars_decode($module['module_description']) : ''; ?></textarea>
+            <textarea id="moduleDescription" name="moduleDescription" required><?php 
+                echo $module ? htmlspecialchars_decode($module['module_description']) : ''; 
+                if (isset($_GET['creatorName'])) {
+                    echo "\n\nThis module was contributed by " . $_GET['creatorName'] . ".";
+                }
+            ?></textarea>
             
             <div id="objectives">
                 <?php

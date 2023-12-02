@@ -49,7 +49,7 @@ h3 {
     #vote {
         /* floating vote button */
         position: fixed;
-        bottom: 40px;
+        bottom: 75px;
         right: 10px;
         z-index: 100;
         display: flex;

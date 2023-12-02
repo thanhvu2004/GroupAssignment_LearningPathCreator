@@ -40,7 +40,7 @@
                 echo "<h2>Search results for \"" . $_GET['search'] . "\"</h2>";
                 $con = checkConnectionDb();
                 $searchTerm = $_GET['search'];
-                $stmt = $con->prepare("SELECT module_title, module_description FROM Module WHERE module_title LIKE ? OR module_description LIKE ?");
+                $stmt = $con->prepare("SELECT module_id, module_title, module_description FROM Module WHERE module_title LIKE ? OR module_description LIKE ?");
                 if (!$stmt) {
                     $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
                     error_log($error . "\n", 3, "error.log");
@@ -51,7 +51,7 @@
                 $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<p><a href='displayModule.php?id=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
+                        echo "<p><a href='displayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
                     }
                 } else {
                     echo "<h2>No results found</h2>";
