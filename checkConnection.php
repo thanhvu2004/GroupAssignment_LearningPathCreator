@@ -9,8 +9,8 @@
             }    
         } catch (Exception $e) {
             // log error to file with timestamp
-            $error = date_default_timezone_set('America/Toronto') . " " . $e->getMessage() . "\n";
-            error_log($error, 3, "error.log");
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+            error_log($error . "\n", 3, "error.log");
             // redirect user to error page
             header("Location: Error.php?error=500");
             exit;

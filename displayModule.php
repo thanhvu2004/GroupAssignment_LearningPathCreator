@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,10 +17,7 @@
     <link rel="stylesheet" href="assets/css/rating.css">
 </head>
 <body>
-    <?php 
-        session_start();
-        include "NavBar.php";
-    ?>
+    <?php include "NavBar.php"; ?>
     <h1>Display Module</h1>
     <?php 
         include "checkConnection.php";
@@ -67,25 +71,26 @@
     <div class="rating" id="vote">
         <p>Rate this path</p>
         <?php
-            $con = checkConnectionDb();
-            if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
-                $user_id = $_SESSION['user_id'];
-            }
-            $stmt2 = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");
-            $stmt2->bind_param("ii", $user_id, $moduleId);
-            $stmt2->execute();
-            $result2 = $stmt2->get_result();
-            if ($result2->num_rows > 0) {
-                if ($result2->fetch_assoc()['vote'] == 'up'){
-                    echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
-                    echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";  
+            try {
+                $con = checkConnectionDb();
+                $stmt2 = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");
+                $stmt2->bind_param("ii", $user_id, $moduleId);
+                $stmt2->execute();
+                $result2 = $stmt2->get_result();
+                if ($result2->num_rows > 0) {
+                    if ($result2->fetch_assoc()['vote'] == 'up'){
+                        echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                        echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";  
+                    } else {
+                        echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
+                        echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";    
+                    }              
                 } else {
                     echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
-                    echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\" class=\"selected\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";    
-                }              
-            } else {
-                echo "<button onclick=\"vote('up', $moduleId)\" id=\"upvote_$moduleId\"><i class=\"fa-regular fa-thumbs-up\"></i></button>";
-                echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
+                    echo "<button onclick=\"vote('down', $moduleId)\" id=\"downvote_$moduleId\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
+                }
+            } catch (Exception $e) {
+                error_log($e->getMessage(), 3, 'error.log');
             }
 ?>
     </div>

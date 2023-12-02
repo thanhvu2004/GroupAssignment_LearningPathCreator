@@ -2,83 +2,82 @@ function vote(action, moduleId) {
   document.getElementById("upvote_" + moduleId).disabled = true;
   document.getElementById("downvote_" + moduleId).disabled = true;
 
-  fetch("updateRating.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "updateRating.php", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var data = JSON.parse(xhr.responseText);
+      handleResponse(data, moduleId);
+    } else if (xhr.readyState == 4) {
+      // Something went wrong with the request
+      reEnableButtons(moduleId);
+      window.location.reload();
+    }
+  };
+
+  xhr.send(
+    JSON.stringify({
       action: action,
       module_id: moduleId,
-    }),
-  })
-    .then((response) => {
-      return response.text().then((text) => {
-        console.log("Raw response:", text);
-        try {
-          const data = JSON.parse(text);
-          // ... rest of your code ...
-        } catch (error) {
-          console.log("JSON parsing error:", error);
-        }
-      });
     })
-    .then((response) => {
-      return response.json().then((data) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-          // window.location.href = "Error.php?error=" + response.statusText;
-        }
-        return response.json();
-        // return data;
-      });
-    })
-    .then((data) => {
-      if (data.code === 401) {
-        document.getElementById("popup").classList.add("show");
-      } else {
-        const responseAction = data.action;
-        document.getElementById("downvote_" + moduleId).disabled = false;
-        document.getElementById("upvote_" + moduleId).disabled = false;
-
-        if (responseAction === "up") {
-          document
-            .getElementById("downvote_" + moduleId)
-            .classList.remove("selected");
-          document
-            .getElementById("upvote_" + moduleId)
-            .classList.add("selected");
-        } else if (responseAction === "down") {
-          document
-            .getElementById("upvote_" + moduleId)
-            .classList.remove("selected");
-          document
-            .getElementById("downvote_" + moduleId)
-            .classList.add("selected");
-        } else if (responseAction === "cancel") {
-          document
-            .getElementById("upvote_" + moduleId)
-            .classList.remove("selected");
-          document
-            .getElementById("downvote_" + moduleId)
-            .classList.remove("selected");
-        }
-
-        const updatedRating = data.updatedRating;
-        if (updatedRating !== undefined) {
-          document.getElementById("currentRating_" + moduleId).innerText =
-            updatedRating;
-        }
-      }
-    })
-    .catch((error) => {
-      // Handle fetch errors or non-OK responses (other than 401)
-      // window.location.href = "Error.php?error=" + error;
-      console.log("Fetch Error:", error);
-      document.getElementById("downvote_" + moduleId).disabled = false;
-      document.getElementById("upvote_" + moduleId).disabled = false;
-    });
+  );
 }
-document.getElementById("close").addEventListener("click", function () {
-  document.getElementById("popup").classList.remove("show");
+
+function reEnableButtons(moduleId) {
+  document.getElementById("upvote_" + moduleId).disabled = false;
+  document.getElementById("downvote_" + moduleId).disabled = false;
+}
+
+function handleResponse(data, moduleId) {
+  if (data.code === 401) {
+    reEnableButtons(moduleId);
+    document.getElementById("popup").classList.add("show");
+  } else {
+    const responseAction = data.action;
+    reEnableButtons(moduleId);
+
+    if (responseAction === "up") {
+      document
+        .getElementById("downvote_" + moduleId)
+        .classList.remove("selected");
+      document.getElementById("upvote_" + moduleId).classList.add("selected");
+    } else if (responseAction === "down") {
+      document
+        .getElementById("upvote_" + moduleId)
+        .classList.remove("selected");
+      document.getElementById("downvote_" + moduleId).classList.add("selected");
+    } else if (responseAction === "cancel") {
+      document
+        .getElementById("upvote_" + moduleId)
+        .classList.remove("selected");
+      document
+        .getElementById("downvote_" + moduleId)
+        .classList.remove("selected");
+    }
+
+    const updatedRating = data.updatedRating;
+    if (updatedRating !== undefined) {
+      document.getElementById("currentRating_" + moduleId).innerText =
+        updatedRating;
+    }
+  }
+}
+
+// Close the popup when the user clicks outside of it or presses the escape key or clicks the close button with id "close"
+window.addEventListener("click", (event) => {
+  if (event.target === document.getElementById("popup")) {
+    document.getElementById("popup")?.classList.remove("show");
+  }
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
+    document.getElementById("popup")?.classList.remove("show");
+  }
+});
+
+document.getElementById("close")?.addEventListener("click", () => {
+  document.getElementById("popup")?.classList.remove("show");
 });
