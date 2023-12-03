@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
-        header('Location: Index.php');
+        header('Location: index.php');
     } 
     include "CheckConnection.php";
     $errors = array('login' => '');
@@ -42,7 +42,7 @@
             $_SESSION['loggedIn'] = true;
             $_SESSION['fullname'] = $fullname;
             $_SESSION['user_id'] = $user_id;
-            header('Location: Index.php');
+            header('Location: index.php');
         } else {
             $errors['login'] = "Invalid email or password";
         }

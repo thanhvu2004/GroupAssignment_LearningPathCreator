@@ -29,7 +29,7 @@
             echo "<h2>Something went wrong</p>";
         }
     ?>
-    <a href="Index.php">Try again</a>
+    <a href="index.php">Try again</a>
         
 </body>
 </html>

@@ -4,7 +4,7 @@
     if (isset($_GET['logout'])) {
         session_unset();
         session_destroy();
-        header('Location: Index.php');
+        header('Location: index.php');
         exit;
     }
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
@@ -38,49 +38,46 @@
         if (isset($_GET['search'])) {
             echo "<div class=\"SearchResult AllModules\">";
             echo "<h2>Search results for \"" . $_GET['search'] . "\"</h2>";
+            $con = checkConnectionDb();
+            $searchTerm = $_GET['search'];
+            $keywords = explode(',', $searchTerm);
+            // First, try to find a match in tag_name
+            $stmt = $con->prepare("SELECT tag_keywords FROM Tag WHERE tag_name = ?");
+            $stmt->bind_param('s', $searchTerm);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-            // Check and fetch the search term from the URL parameters
-            if (isset($_GET['search'])) {
-                $con = checkConnectionDb();
-                $searchTerm = $_GET['search'];
-                $keywords = explode(',', $searchTerm);
-
-                $query = "SELECT * FROM Module WHERE ";
-
-                // Create placeholders for the keywords in the query
-                $placeholders = [];
-                $params = [];
-
-                foreach ($keywords as $keyword) {
-                    $placeholders[] = "module_title LIKE ? OR module_description LIKE ?";
-                    $params[] = "%$keyword%";
-                    $params[] = "%$keyword%";
-                }
-
-                // Join the placeholders with "OR" conditions
-                $query .= implode(" OR ", $placeholders);
-
-                $stmt = $con->prepare($query);
-
-                // Bind parameters using prepared statement to prevent SQL injection
-                $stmt->bind_param(str_repeat('s', count($keywords) * 2), ...$params);
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<p><a href='DisplayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
-                    }
-                } else {
-                    echo "<h2>No results found</h2>";
-                }
-
-                $stmt->close();
-                $con->close();
-            } else {
-                echo "<h2>No search term provided</h2>";
+            if ($result->num_rows > 0) {
+                // If a match is found in tag_name, use the tag_keywords for the search
+                $row = $result->fetch_assoc();
+                $keywords = explode(',', $row['tag_keywords']);
             }
+            $query = "SELECT * FROM Module WHERE ";
+            // Create placeholders for the keywords in the query
+            $placeholders = [];
+            $params = [];
+            foreach ($keywords as $keyword) {
+                $placeholders[] = "module_title LIKE ? OR module_description LIKE ?";
+                $params[] = "%$keyword%";
+                $params[] = "%$keyword%";
+            }
+            // Join the placeholders with "OR" conditions
+            $query .= implode(" OR ", $placeholders);
+            $stmt = $con->prepare($query);
 
+            // Bind parameters using prepared statement to prevent SQL injection
+            $stmt->bind_param(str_repeat('s', count($keywords) * 2), ...$params);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<p><a href='DisplayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
+                }
+            } else {
+                echo "<h2>No results found</h2>";
+            }
+            $stmt->close();
+            $con->close();
             echo "</div>";
         }
     ?>
