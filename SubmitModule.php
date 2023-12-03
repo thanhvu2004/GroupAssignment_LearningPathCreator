@@ -30,7 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate module title and description
     $moduleTitle = isset($_POST["moduleTitle"]) ? sanitizeInput($_POST["moduleTitle"]) : '';
+    if (strlen($moduleTitle) > 100) {
+        $moduleTitle = substr($moduleTitle, 0, 100);
+    }
     $moduleDescription = isset($_POST["moduleDescription"]) ? sanitizeInput($_POST["moduleDescription"]) : '';
+    if (strlen($moduleDescription) > 1000) {
+        $moduleDescription = substr($moduleDescription, 0, 1000);
+    }
 
     $user_id = $_SESSION['user_id'];
 

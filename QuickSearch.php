@@ -1,7 +1,7 @@
 <?php
     // handle form submission
     session_start();
-    include "checkConnection.php";
+    include "CheckConnection.php";
     if (isset($_POST['tag_name']) && isset($_POST['tag_keywords']) && isset($_SESSION['login_email'])) {
         $con = checkConnectionDb();
 

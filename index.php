@@ -31,7 +31,7 @@
         <h2>Welcome to the Learning Path Creator!</h2>
         <p>Here you can create your own learning path and share it with others!</p>
         <p>Click on the "Create Path" button to get started!</p>
-        <a href="createPath.php"><button class="btn">Create Path</button></a>
+        <a href="CreatePath.php"><button class="btn">Create Path</button></a>
     </div>
     <!-- Display search results -->
     <?php
@@ -63,19 +63,26 @@
             }
             // Join the placeholders with "OR" conditions
             $query .= implode(" OR ", $placeholders);
+            $query .= " ORDER BY rating DESC";
             $stmt = $con->prepare($query);
 
             // Bind parameters using prepared statement to prevent SQL injection
             $stmt->bind_param(str_repeat('s', count($keywords) * 2), ...$params);
             $stmt->execute();
             $result = $stmt->get_result();
+            echo '<div class="searchedModuleContainer">';
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+                    echo "<div class='searchedModule'>";
                     echo "<p><a href='DisplayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
+                    echo "<p>" . $row['module_description'] . "</p>";
+                    echo "<p>Rating: " . number_format($row['rating'], 0) . "</p>";
+                    echo "</div>";
                 }
             } else {
                 echo "<h2>No results found</h2>";
             }
+            echo "</div>";
             $stmt->close();
             $con->close();
             echo "</div>";
@@ -87,7 +94,7 @@
         <?php
             $con = checkConnectionDb();
 
-            $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module");
+            $stmt = $con->prepare("SELECT * FROM Module ORDER BY rating DESC");
             if (!$stmt) {
                 $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
                 error_log($error . "\n", 3, "error.log");
@@ -98,7 +105,7 @@
                 while ($row = $result->fetch_assoc()) {
                     echo "<div class='module'>";
                     echo    "<h3>" . $row['module_title'] . "</h3>";
-                    echo    "<p>" . $row['module_description'] . "</p>";
+                    echo    "<pre>" . $row['module_description'] . "</pre>";
                     // show the module's objectives and the url for each objective
                     $stmt2 = $con->prepare("SELECT objective_title, objective_url FROM Objective WHERE module_id = ?");
                     if (!$stmt2) {

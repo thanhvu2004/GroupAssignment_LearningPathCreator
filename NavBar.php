@@ -4,7 +4,7 @@
         echo "<ul>";
         echo "<li><a href=\"index.php\">Home</a></li>";
         echo "<li><a href=\"QuickSearch.php\">Quick Search</a></li>";
-        echo "<li><a href=\"createPath.php\">Create Path</a></li>";
+        echo "<li><a href=\"CreatePath.php\">Create Path</a></li>";
         echo "<li style=\"float: right\"><a href=\"index.php?logout=1\">Log Out</a></li>";
         echo "<li style=\"float: right\"><a href=\"Profile.php\">Profile</a></li>";
         echo "<li style=\"float: right\">

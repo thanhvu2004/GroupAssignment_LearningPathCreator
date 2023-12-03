@@ -159,3 +159,83 @@ Stack trace:
 [02-Dec-2023 06:32:03 UTC] PHP Warning:  session_start(): Cannot start session when headers already sent in /home/f3411302/public_html/comp1230/assignments/GroupAssignment_LearningPathCreator/DisplayModule.php on line 14
 [02-Dec-2023 06:32:04 UTC] PHP Warning:  session_start(): Cannot start session when headers already sent in /home/f3411302/public_html/comp1230/assignments/GroupAssignment_LearningPathCreator/DisplayModule.php on line 14
 [02-Dec-2023 06:37:43 UTC] PHP Warning:  session_start(): Cannot start session when headers already sent in /home/f3411302/public_html/comp1230/assignments/GroupAssignment_LearningPathCreator/DisplayModule.php on line 14
+[03-Dec-2023 09:15:21 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:15:21 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:15:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:16:59 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:16:59 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:16:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:20:30 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:20:30 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:20:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:20:51 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:20:51 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:20:51 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:63
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:38 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:38 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:38 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:38 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:38 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:64
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 64
+[03-Dec-2023 09:21:39 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:39 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:39 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:39 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:64
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 64
+[03-Dec-2023 09:21:40 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:40 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:40 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:40 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:40 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:64
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 64
+[03-Dec-2023 09:21:42 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:42 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:21:42 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:42 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 63
+[03-Dec-2023 09:21:42 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:64
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 64
+[03-Dec-2023 09:23:24 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:24 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:24 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:23:25 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:25 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:25 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:23:27 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:27 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:27 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62
+[03-Dec-2023 09:23:30 UTC] PHP Warning:  include(checkConnection.php): failed to open stream: No such file or directory in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:30 UTC] PHP Warning:  include(): Failed opening 'checkConnection.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 4
+[03-Dec-2023 09:23:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function checkConnectionDb() in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php:62
+Stack trace:
+#0 {main}
+  thrown in /home/f3411302/public_html/comp1230/assignments/project/QuickSearch.php on line 62

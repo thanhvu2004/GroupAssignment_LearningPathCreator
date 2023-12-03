@@ -30,7 +30,7 @@ h3 {
 #vote {
     /* floating vote button */
     position: fixed;
-    bottom: 50px;
+    bottom: 10%;
     right: 50px;
     z-index: 100;
     display: flex;
@@ -49,7 +49,7 @@ h3 {
     #vote {
         /* floating vote button */
         position: fixed;
-        bottom: 75px;
+        bottom: 10%;
         right: 10px;
         z-index: 100;
         display: flex;

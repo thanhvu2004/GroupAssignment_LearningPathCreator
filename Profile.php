@@ -57,7 +57,7 @@
             <img src="<?php echo $image_data; ?>" alt="avatar">        
             <h2><?php echo $_SESSION['fullname']; ?></h2>
             <h3><?php echo $_SESSION['login_email']; ?></h3>
-            <a class="btn center" id="updProfile" href="updateProfile.php">Update Profile</a>
+            <a class="btn center" id="updProfile" href="UpdateProfile.php">Update Profile</a>
         </div>
         <!-- display user owned modules -->
         <div class="bio2">
@@ -88,7 +88,7 @@
                         }
                         echo "<div class='rating'>";
                         echo "<p id=\"currentRating_{$row['module_id']}\">Rating: " . number_format($row['rating'], 0) . "</p>";
-                        echo "<a href=\"createPath.php?module_id={$row['module_id']}\"><button class=\"btn\">Edit</button></a>";
+                        echo "<a href=\"CreatePath.php?module_id={$row['module_id']}\"><button class=\"btn\">Edit</button></a>";
                         echo "<button onclick=\"confirmDelete({$row['module_id']})\" class=\"btn delete2\">Delete</button>";
                         echo "</div>";
                         echo "</div>";

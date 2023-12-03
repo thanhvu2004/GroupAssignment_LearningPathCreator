@@ -59,6 +59,7 @@
     height: 150px;
     overflow: scroll;
     padding-bottom: 20px;
+    white-space: pre-wrap;
 }
 
 .module > *:nth-child(3) {
@@ -98,7 +99,14 @@
     align-items: flex-start;
     justify-content: center;
 }
-
+.searchedModuleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: scroll;
+    width: 100%;
+}
 .SearchResult > * {
     margin: 10px;
 }
@@ -114,4 +122,22 @@
 .SearchResult > p > a:hover {
     border-left: #21A179 solid 5px;
     color: #21A179;
+}
+
+.searchedModule {
+    min-width: 300px;
+    max-width: 500px;
+    border : 1px solid #ccc;
+    height: 200px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    background-color: #f1f1f1;
+    overflow: scroll;
+}
+
+.searchedModule:hover {
+    box-shadow: 0 0 20px #ccc;
+    background-color: #ddd;
 }
