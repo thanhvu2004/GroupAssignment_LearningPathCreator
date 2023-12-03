@@ -60,6 +60,13 @@ li a:hover:not(.active), .dropdown:hover .dropbtn {
   flex-direction: row;
   border: none;
   padding: 0px;
+  width: fit-content;
+}
+
+#search input[type="text"]:hover {
+  background-color: #f1f1f1;
+  width: 350px;
+  transition: width 0.5s ease-in-out;
 }
 
 #search input[type="text"], #search button {

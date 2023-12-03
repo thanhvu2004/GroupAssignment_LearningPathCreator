@@ -4,13 +4,12 @@
     if (isset($_GET['logout'])) {
         session_unset();
         session_destroy();
-        header('Location: index.php');
+        header('Location: Index.php');
         exit;
     }
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
-    include "checkConnection.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +23,8 @@
     <link rel="stylesheet" href="assets/css/rating.css">
 </head>
 <body>
-    <?php include "NavBar.php";?>
+    <?php include "NavBar.php";
+    include "CheckConnection.php";?>
     <!-- Home page -->
     <div class="welcome">
         <h1>Hello <?php if(isset($_SESSION['fullname'])){echo $_SESSION['fullname'];}  ?></h1>
@@ -37,29 +37,54 @@
     <?php
         if (isset($_GET['search'])) {
             echo "<div class=\"SearchResult AllModules\">";
-                echo "<h2>Search results for \"" . $_GET['search'] . "\"</h2>";
+            echo "<h2>Search results for \"" . $_GET['search'] . "\"</h2>";
+
+            // Check and fetch the search term from the URL parameters
+            if (isset($_GET['search'])) {
                 $con = checkConnectionDb();
                 $searchTerm = $_GET['search'];
-                $stmt = $con->prepare("SELECT module_id, module_title, module_description FROM Module WHERE module_title LIKE ? OR module_description LIKE ?");
-                if (!$stmt) {
-                    $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
-                    error_log($error . "\n", 3, "error.log");
+                $keywords = explode(',', $searchTerm);
+
+                $query = "SELECT * FROM Module WHERE ";
+
+                // Create placeholders for the keywords in the query
+                $placeholders = [];
+                $params = [];
+
+                foreach ($keywords as $keyword) {
+                    $placeholders[] = "module_title LIKE ? OR module_description LIKE ?";
+                    $params[] = "%$keyword%";
+                    $params[] = "%$keyword%";
                 }
-                $searchTerm = "%" . $searchTerm . "%";
-                $stmt->bind_param("ss", $searchTerm, $searchTerm);
+
+                // Join the placeholders with "OR" conditions
+                $query .= implode(" OR ", $placeholders);
+
+                $stmt = $con->prepare($query);
+
+                // Bind parameters using prepared statement to prevent SQL injection
+                $stmt->bind_param(str_repeat('s', count($keywords) * 2), ...$params);
                 $stmt->execute();
                 $result = $stmt->get_result();
+
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo "<p><a href='displayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
+                        echo "<p><a href='DisplayModule.php?moduleId=" . $row['module_id'] . "'>" . $row['module_title'] . "</a></p>";
                     }
                 } else {
                     echo "<h2>No results found</h2>";
                 }
+
+                $stmt->close();
                 $con->close();
+            } else {
+                echo "<h2>No search term provided</h2>";
+            }
+
             echo "</div>";
         }
     ?>
+
     <div class="AllModules">
         <!-- Diplay all modules from the db -->
         <?php
@@ -116,7 +141,7 @@
                         echo "<button onclick=\"vote('down', {$row['module_id']})\" id=\"downvote_{$row['module_id']}\"><i class=\"fa-regular fa-thumbs-down\"></i></button>";                  
                     }
                     echo "<p id=\"currentRating_{$row['module_id']}\">" . number_format($row['rating'], 0) . "</p>";
-                    echo "<a href='displayModule.php?moduleId={$row['module_id']}' class=\"btn\"> Learn more</a>";
+                    echo "<a href='DisplayModule.php?moduleId={$row['module_id']}' class=\"btn\"> Learn more</a>";
                     echo "</div>";
                     echo "</div>";
                 }

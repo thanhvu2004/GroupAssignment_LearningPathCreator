@@ -28,6 +28,7 @@
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .module {
@@ -42,7 +43,8 @@
     font-weight: bold;
     color: #000;
     cursor: pointer;
-    width: calc(20% - 1%);
+    width: calc(22% - 1%);
+    min-width: 240px;
     height: 450px;
     display: flex;
     flex-direction: column;
@@ -65,7 +67,7 @@
     margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 550px) {
     /* Media query for screens smaller than 768px */
     .module {
         width: 80%;

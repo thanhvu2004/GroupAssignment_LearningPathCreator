@@ -3,7 +3,7 @@
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
-    include "checkConnection.php";
+    include "CheckConnection.php";
     $con = checkConnectionDb();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['module_id'])) {

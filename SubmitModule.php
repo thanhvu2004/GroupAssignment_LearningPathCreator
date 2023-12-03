@@ -21,7 +21,7 @@ if (isset($_SESSION['O_objectiveTitles']) && isset($_SESSION['O_objectiveUrls'])
     $O_objectiveIds = array();
 }
 
-include "checkConnection.php";
+include "CheckConnection.php";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

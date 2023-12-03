@@ -6,9 +6,9 @@
         header('Location: LogIn.php?error=401');
         exit;
     }
-    include "checkConnection.php";
+    include "CheckConnection.php";
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $con = checkConnectionDb();
 
         // Retrieve the user_id based on the email
@@ -22,7 +22,7 @@
             $user_id = $row['user_id'];
 
             // Check file upload and handle image processing
-            if ($_FILES['image']['error'] == 0) {
+            if ($_FILES['image']['error'] == 0  && isset($_FILES['image'])) {
                 $imageData = handleImageUpload($_FILES['image']);
                 $error = "";
                 if ($imageData !== false) {
@@ -50,11 +50,22 @@
                     $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Unable to process the uploaded image.";
                     error_log($error . "\n", 3, "error.log");
                 }
+            } elseif ($error == "") { // Handle user profile update
+                $firstName = $_POST['firstName'];
+                $lastName = $_POST['lastName'];
+                $email = $_POST['email'];
+
+                $stmt = $con->prepare("UPDATE User SET first_name = ?, last_name = ?, email = ? WHERE user_id = ?");
+                $stmt->bind_param("sssi", $firstName, $lastName, $email, $user_id);
+                $stmt->execute();
+
+                $_SESSION['login_email'] = $email;
+                $_SESSION['fullname'] = $firstName . " " . $lastName;
             } else {
                 echo "<p class=\"error\">Error: There was a problem with the uploaded file.</p>";
                 $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: There was a problem with the uploaded file.";
                 error_log($error . "\n", 3, "error.log");
-            }
+            }            
         } else {
             echo "<p class=\"error\">User not found.</p>";
             $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: User not found.";
@@ -122,9 +133,32 @@
 </head>
 
 <body>
+    <?php
+        try {
+            $con = checkConnectionDb();
+            $stmt = $con->prepare("SELECT first_name, last_name FROM User WHERE email = ?");
+            $stmt->bind_param("i", $_SESSION['login_email']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+            $first_name = $user['first_name'];
+            $last_name = $user['last_name'];
+            $con->close();
+        } catch (Exception $e) {
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: " . $con->error;
+            error_log($error . "\n", 3, "error.log");
+            echo "<p class=\"error\">Error: Unable to retrieve user information.</p>";
+        }
+    ?>
     <form method="post" enctype="multipart/form-data" style="margin-top: 20px;">
         <label for="image">Profile Image:</label>
-        <input type="file" id="image" name="image">
+        <input type="file" id="image" name="image"><br><br>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" value="<?php echo $first_name; ?>" required>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" value="<?php echo $last_name; ?>" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<?php echo $_SESSION['login_email']; ?>" required>
         <br>
         <input type="submit" value="Update Profile">
     </form>

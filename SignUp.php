@@ -6,7 +6,7 @@
 
     $errors = array('email' => '', 'firstname' => '', 'lastname' => '', 'password' => '');
     $success = '';
-    include "checkConnection.php";
+    include "CheckConnection.php";
     function registrationValidate($email, $firstname, $lastname, $password){
         global $errors;
         // Check if email already exists
@@ -59,7 +59,7 @@
             $stmt->execute();
             $stmt->close();
             $con->close();
-            header('Location: success.php');
+            header('Location: Success.php');
         }
     }
 ?>

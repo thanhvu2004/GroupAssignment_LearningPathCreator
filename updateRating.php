@@ -1,7 +1,7 @@
 <?php
         ini_set('display_errors', 0);
         session_start();
-        include "checkConnection.php";
+        include "CheckConnection.php";
         define('CONTENT_TYPE_JSON', 'application/json');
 
         // Check if the request is a POST request

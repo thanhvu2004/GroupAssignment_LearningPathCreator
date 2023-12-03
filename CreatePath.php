@@ -6,7 +6,7 @@
     } else {
         header('Location: LogIn.php?error=401');
     }
-    include "checkConnection.php";
+    include "CheckConnection.php";
 
     $module = null;
     $objectives = null;

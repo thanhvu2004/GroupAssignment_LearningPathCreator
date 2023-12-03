@@ -3,7 +3,7 @@ function vote(action, moduleId) {
   document.getElementById("downvote_" + moduleId).disabled = true;
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "updateRating.php", true);
+  xhr.open("POST", "UpdateRating.php", true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
   xhr.onreadystatechange = function () {

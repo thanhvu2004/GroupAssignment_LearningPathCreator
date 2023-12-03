@@ -20,7 +20,7 @@
     <?php include "NavBar.php"; ?>
     <h1>Display Module</h1>
     <?php 
-        include "checkConnection.php";
+        include "CheckConnection.php";
         $moduleId = $_GET['moduleId'];
         $con = checkConnectionDb();
         $stmt = $con->prepare(" SELECT Module.*, User.first_name, User.last_name 

@@ -3,7 +3,7 @@
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
         $user_id = $_SESSION['user_id'];
     }
-    include "checkConnection.php";
+    include "CheckConnection.php";
 
     $con = checkConnectionDb();
     // Retrieve the user_id based on the email
@@ -55,6 +55,8 @@
         <!-- display user avatar -->
         <div class="bio1">
             <img src="<?php echo $image_data; ?>" alt="avatar">        
+            <h2><?php echo $_SESSION['fullname']; ?></h2>
+            <h3><?php echo $_SESSION['login_email']; ?></h3>
             <a class="btn center" id="updProfile" href="updateProfile.php">Update Profile</a>
         </div>
         <!-- display user owned modules -->

@@ -45,7 +45,7 @@ document.getElementById("addObjective").addEventListener("click", function () {
 function deleteObjective(button, objectiveId) {
   // Delete the objective
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "deleteObjective.php", true);
+  xhr.open("POST", "DeleteObjective.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function () {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

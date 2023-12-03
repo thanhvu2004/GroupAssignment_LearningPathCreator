@@ -1,9 +1,9 @@
 <?php
     session_start();
     if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
-        header('Location: index.php');
+        header('Location: Index.php');
     } 
-    include "checkConnection.php";
+    include "CheckConnection.php";
     $errors = array('login' => '');
     function loginValidate($login_email, $login_password) {
         $con = checkConnectionDb();
@@ -42,7 +42,7 @@
             $_SESSION['loggedIn'] = true;
             $_SESSION['fullname'] = $fullname;
             $_SESSION['user_id'] = $user_id;
-            header('Location: index.php');
+            header('Location: Index.php');
         } else {
             $errors['login'] = "Invalid email or password";
         }

@@ -36,7 +36,6 @@ h1, h2 {
 form {
     flex-direction: column;
     margin: 0 auto;
-    width: 80%; /* Use percentage for width */
     max-width: 600px; /* Set a maximum width for larger screens */
     border: 3px solid #f1f1f1;
     padding: 10px;
