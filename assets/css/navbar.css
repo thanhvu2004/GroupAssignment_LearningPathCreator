@@ -54,3 +54,51 @@ li a:hover:not(.active), .dropdown:hover .dropbtn {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+#search {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  padding: 0px;
+  width: fit-content;
+}
+
+#search input[type="text"]:hover {
+  background-color: #f1f1f1;
+  width: 350px;
+  transition: width 0.5s ease-in-out;
+}
+
+#search input[type="text"], #search button {
+  display: block;
+  margin-bottom: 0px;
+}
+
+#search button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  height: fit-content;
+  margin-top: 5px;
+}
+
+#search button:hover {
+  background-color: #111;
+}
+
+#search input[type="text"] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#search input[type="text"]:focus {
+  outline: none;
+}
+
+#search input[type="text"]:hover {
+  background-color: #f1f1f1;
+}
+

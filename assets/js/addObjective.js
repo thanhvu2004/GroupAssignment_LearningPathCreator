@@ -30,5 +30,38 @@ document.getElementById("addObjective").addEventListener("click", function () {
   input.required = true;
   objective.appendChild(input);
 
+  var button = document.createElement("button");
+  button.type = "button";
+  button.className = "delete btn deleteObjective";
+  button.textContent = "Delete";
+  button.addEventListener("click", function () {
+    deleteObjective(this, objectiveCount);
+  });
+  objective.appendChild(button);
+
   objectives.appendChild(objective);
 });
+
+function deleteObjective(button, objectiveId) {
+  // Delete the objective
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "DeleteObjective.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      // Remove the objective element from the DOM
+      var objective = button.parentNode;
+      objective.parentNode.removeChild(objective);
+    }
+  };
+  xhr.send("objective_id=" + objectiveId);
+}
+
+function validateForm() {
+  var objectives = document.getElementById("objectives").children;
+  if (objectives.length === 0) {
+    document.getElementById("warning").innerText = "Please add at least one objective.";
+    return false;
+  }
+  return true;
+}

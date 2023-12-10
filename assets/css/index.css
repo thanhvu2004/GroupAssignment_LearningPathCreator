@@ -28,6 +28,7 @@
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .module {
@@ -42,7 +43,8 @@
     font-weight: bold;
     color: #000;
     cursor: pointer;
-    width: calc(20% - 1%);
+    width: calc(22% - 1%);
+    min-width: 240px;
     height: 450px;
     display: flex;
     flex-direction: column;
@@ -50,13 +52,14 @@
 
 .module > *:nth-child(1) {
     height: 50px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .module > *:nth-child(2) {
     height: 150px;
     overflow: scroll;
     padding-bottom: 20px;
+    white-space: pre-wrap;
 }
 
 .module > *:nth-child(3) {
@@ -65,43 +68,10 @@
     margin-bottom: 20px;
 }
 
-.rating .selected {
-    background-color: rgb(82, 49, 141);
-    color: #fff;
-}
-
-.rating button {
-    background-color: #21A179;
-    border: none;
-    color: #fff;
-    padding: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    margin: 2px;
-}
-.rating button:hover {
-    background-color: #000;
-}
-.rating button:disabled {
-    background-color: #ccc;
-}
-.rating p{
-    display: inline-block;
-    margin: 2px;
-    padding: 1px 5px 1px 5px;
-}
-
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 550px) {
     /* Media query for screens smaller than 768px */
     .module {
-        width: calc(50% - 1%);
-    }
-    .module p {
-        font-size: 1.5vw;
-    }
-    .objectives {
-        font-size: 1.25vw;
+        width: 80%;
     }
 }
 
@@ -119,6 +89,55 @@
 }
 
 .objectives a:hover {
-    border-left: #21A179 solid 2px;
+    border-left: #21A179 solid 5px;
     color: #21A179;
+}
+
+.SearchResult {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+.searchedModuleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: scroll;
+    width: 100%;
+}
+.SearchResult > * {
+    margin: 10px;
+}
+
+.SearchResult > p > a {
+    color: #000;
+    text-decoration: none;
+    border-left: #000 solid 2px;
+    padding-left: 10px;
+    font-weight: lighter;
+}
+
+.SearchResult > p > a:hover {
+    border-left: #21A179 solid 5px;
+    color: #21A179;
+}
+
+.searchedModule {
+    min-width: 300px;
+    max-width: 500px;
+    border : 1px solid #ccc;
+    height: 200px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    background-color: #f1f1f1;
+    overflow: scroll;
+}
+
+.searchedModule:hover {
+    box-shadow: 0 0 20px #ccc;
+    background-color: #ddd;
 }

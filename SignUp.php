@@ -1,26 +1,16 @@
 <?php
     session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+
     $errors = array('email' => '', 'firstname' => '', 'lastname' => '', 'password' => '');
     $success = '';
-    function getDbConnection(){
-        try {
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                throw new Exception("Connection failed: " . $con->connect_error);
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-        return $con;
-    }
+    include "CheckConnection.php";
     function registrationValidate($email, $firstname, $lastname, $password){
         global $errors;
         // Check if email already exists
-        try {
-            $con = getDbConnection();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        $con = checkConnectionDb();
         $stmt = $con->prepare("SELECT email FROM User WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -63,17 +53,13 @@
         if (registrationValidate($email, $firstname, $lastname, $password)) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             // Prepare the data to be written
-            try {
-                $con = getDbConnection();
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
+            $con = checkConnectionDb();
             $stmt = $con->prepare("INSERT INTO User (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("ssss", $firstname, $lastname, $email, $hashed_password);
             $stmt->execute();
             $stmt->close();
             $con->close();
-            $success = "You have successfully registered!";
+            header('Location: Success.php');
         }
     }
 ?>
@@ -116,5 +102,6 @@
 
         <input type="submit" value="Sign up!">  
     </form>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

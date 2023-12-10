@@ -1,39 +1,26 @@
 <?php
     session_start();
-    if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php');
-        exit;
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
     }
-    if (isset($_GET['module_id'])) {
-        $moduleId = $_GET['module_id'];
-        $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-        if ($con->connect_error) {
-            die("Connection failed: " . $con->connect_error);
-        }
-        // check if the user is the creator of the module
-        $stmt = $con->prepare("SELECT module_creator_id FROM Module WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            if ($row['module_creator_id'] != $_SESSION['user_id']) {
-                header('Location: Login.php');
-                exit;
-            }
-        }
+    include "CheckConnection.php";
+    $con = checkConnectionDb();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['module_id'])) {
+        $module_id = $_POST['module_id'];
+
         $stmt = $con->prepare("DELETE FROM Objective WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
+        $stmt->bind_param("i", $module_id);
         $stmt->execute();
-        $stmt = $con->prepare("DELETE FROM UserVotes WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
-        $stmt->execute();
+
         $stmt = $con->prepare("DELETE FROM Module WHERE module_id = ?");
-        $stmt->bind_param("i", $moduleId);
+        $stmt->bind_param("i", $module_id);
         $stmt->execute();
         $stmt->close();
-        $con->close();
-        header('Location: Profile.php');
+
+        echo "Module deleted successfully";
     } else {
-        header('Location: Profile.php');
+        // log error
+        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Module not found";
+        error_log($error . "\n", 3, "error.log");
     }

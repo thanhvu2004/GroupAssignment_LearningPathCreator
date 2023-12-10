@@ -53,19 +53,6 @@ p {
     margin: 20px;
     text-align: left;
 }
-
-@media only screen and (max-width: 768px) {
-    .bio2, .bio1 {
-        margin: 5px;
-        padding: 5px;
-    }
-    .bio2 {
-        margin-left: 0px;
-    }
-    .bio1 {
-        height: 100%;
-    }
-}
 .AllModules {
     width: 100%;
     display: flex;
@@ -125,4 +112,25 @@ p {
 .objectives a:hover {
     border-left: #21A179 solid 2px;
     color: #21A179;
+}
+
+.delete2 {
+    background-color: #DB4F2C;
+    margin: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .bio2, .bio1 {
+        margin: 5px;
+        padding: 5px;
+    }
+    .bio2 {
+        margin-left: 0px;
+    }
+    .bio1 {
+        height: 100%;
+    }
+    .module {
+        width: 80%;
+    }
 }

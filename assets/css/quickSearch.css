@@ -1,0 +1,21 @@
+#tag_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 20px 20px 50px 20px;
+}
+.tag {
+    background-color: #21A179;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+    width: fit-content;
+}
+
+.tag:hover {
+    opacity: 0.8;
+}

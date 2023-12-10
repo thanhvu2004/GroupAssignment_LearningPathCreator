@@ -1,17 +1,11 @@
 <?php
-session_start();
-
-    if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-        header('Location: login.php');
-        exit;
+    session_start();
+    if (isset($_SESSION['login_email']) || isset($_SESSION['fullname'])) {
+        $user_id = $_SESSION['user_id'];
     }
+    include "CheckConnection.php";
 
-    $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-
-    if ($con->connect_error) {
-        die("Connection failed: " . $con->connect_error);
-    }
-
+    $con = checkConnectionDb();
     // Retrieve the user_id based on the email
     $stmt = $con->prepare("SELECT user_id FROM User WHERE email = ?");
     $stmt->bind_param("s", $_SESSION['login_email']);
@@ -54,23 +48,22 @@ session_start();
     <link rel="stylesheet" href="assets/css/profile.css?v=1.2">
 </head>
 <body>
-    <?php include "navbar.php"; ?>
+    <?php include "NavBar.php"; ?>
     <!-- Profile -->
     <h1>Profile</h1>
     <div class="container">
         <!-- display user avatar -->
         <div class="bio1">
             <img src="<?php echo $image_data; ?>" alt="avatar">        
-            <a class="btn center" id="updProfile" href="updateProfile.php">Update Profile</a>
+            <h2><?php echo $_SESSION['fullname']; ?></h2>
+            <h3><?php echo $_SESSION['login_email']; ?></h3>
+            <a class="btn center" id="updProfile" href="UpdateProfile.php">Update Profile</a>
         </div>
         <!-- display user owned modules -->
         <div class="bio2">
             <h2>My Modules</h2>
             <?php
-                $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-                if ($con->connect_error) {
-                    die("Connection failed: " . $con->connect_error);
-                }
+                $con = checkConnectionDb();
                 $stmt = $con->prepare("SELECT module_id, module_title, module_description, rating FROM Module WHERE module_creator_id = ?");
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();
@@ -95,16 +88,17 @@ session_start();
                         }
                         echo "<div class='rating'>";
                         echo "<p id=\"currentRating_{$row['module_id']}\">Rating: " . number_format($row['rating'], 0) . "</p>";
-                        echo "<a href=\"deleteModule.php?module_id={$row['module_id']}\"><button class=\"btn\">Delete</button></a>";
                         echo "<a href=\"CreatePath.php?module_id={$row['module_id']}\"><button class=\"btn\">Edit</button></a>";
+                        echo "<button onclick=\"confirmDelete({$row['module_id']})\" class=\"btn delete2\">Delete</button>";
                         echo "</div>";
                         echo "</div>";
                     }
                     echo "</div>";
                 }
                 $con->close();
-
             ?>
     </div>
+    <script src="assets/js/deleteModule.js"></script>
+    <script src="https://kit.fontawesome.com/8115f5ec82.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,14 +1,15 @@
 <?php
+        ini_set('display_errors', 0);
         session_start();
-
+        include "CheckConnection.php";
         define('CONTENT_TYPE_JSON', 'application/json');
 
         // Check if the request is a POST request
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Ensure user is logged in or implement necessary authentication checks
             if (!isset($_SESSION['login_email']) || !isset($_SESSION['fullname'])) {
-                http_response_code(401); // Unauthorized
-                echo json_encode(['error' => 'not_logged_in']);
+                http_response_code(200); // Unauthorized
+                echo json_encode(['error' => 'not_logged_in', 'code' => 401]);
                 exit;
             }
 
@@ -23,12 +24,7 @@
             $user_id = $_SESSION['user_id'];
 
             // Connect to the database
-            $con = new mysqli("f3411302.gblearn.com", "f3411302_admin", "admin", "f3411302_LearningPathCreator");
-            if ($con->connect_error) {
-                http_response_code(500); // Internal Server Error
-                echo json_encode(['error' => 'database_connection_error']);
-                exit;
-            }
+            $con = checkConnectionDb();
 
             // Check if a row already exists in UserVotes for the current user and module
             $stmt = $con->prepare("SELECT vote FROM UserVotes WHERE user_id = ? AND module_id = ?");
@@ -87,10 +83,12 @@
         $updateStmt->execute();
 
         // Return the updated rating as a JSON response
+        error_log(CONTENT_TYPE_JSON . "\n", 3, "error.log");
         header(CONTENT_TYPE_JSON);
         echo json_encode(['updatedRating' => $currentRating,'action' => $action]);
         } else {
-            echo "Module not found.";
+            $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Module not found.";
+            error_log($error . "\n", 3, "error.log");
         }
 
         // Close database connection
@@ -99,5 +97,7 @@
         http_response_code(400); // Bad Request
         header('Content-Type: application/json');
         echo json_encode(['error' => 'invalid_request']);
+        $error = date_default_timezone_set('America/Toronto') . " - " . date('m/d/Y h:i:s a', time()) . " - " . "Error: Invalid request.";
+        error_log($error . "\n", 3, "error.log");
         exit;
     }
